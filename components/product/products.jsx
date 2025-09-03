@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product/product-card";
-import { Product } from "@/types/index";
 import { Flame, TrendingUp } from "lucide-react";
 import { getProducts } from "@/actions/products";
 import Link from "next/link";

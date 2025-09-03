@@ -1,4 +1,4 @@
-export const getPasswordStrength = (password: string) => {
+export const getPasswordStrength = (password) => {
     if (password.length === 0) return { strength: 0, label: "" };
     if (password.length < 4)
         return { strength: 25, label: "Weak", color: "bg-red-500" };

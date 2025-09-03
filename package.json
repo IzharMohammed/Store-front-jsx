@@ -41,7 +41,9 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/node": "24.3.0",
     "tailwindcss": "^4",
-    "tw-animate-css": "^1.3.6"
+    "tw-animate-css": "^1.3.6",
+    "typescript": "5.9.2"
   }
 }

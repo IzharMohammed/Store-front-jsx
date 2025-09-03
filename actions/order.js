@@ -1,7 +1,5 @@
 "use server";
 
-import { ShippingAddress } from "@/types/auth-order";
-import { OrdersResponse } from "@/types/order";
 import { cookieManager } from "@/utils/authTools";
 import { revalidateTag } from "next/cache";
 

@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Shield, Zap, Award, Package } from "lucide-react";
-import { WishlistItem } from "@/types/wishlist";
 import EmptyWishlist from "@/components/wishlist/empty-wishlist";
 import { getWishlistItems } from "@/actions/wishlist";
 import { WishlistItemActions } from "@/components/wishlist/wishlist-item-actions";
