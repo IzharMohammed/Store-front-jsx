@@ -16,24 +16,12 @@ import {
 import { toast } from "sonner";
 import { createOrder } from "@/actions/order";
 
-interface ShippingAddress {
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-}
-
-interface CheckoutFormProps {
-  cartItems: any[];
-}
-
-export function CheckoutForm({ cartItems }: CheckoutFormProps) {
+export function CheckoutForm({ cartItems }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
 
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
+  const [shippingAddress, setShippingAddress] = useState({
     street: "",
     city: "",
     state: "",
@@ -42,14 +30,14 @@ export function CheckoutForm({ cartItems }: CheckoutFormProps) {
   });
   const [customerPhone, setCustomerPhone] = useState("");
 
-  const handleInputChange = (field: keyof ShippingAddress, value: string) => {
+  const handleInputChange = (field, value) => {
     setShippingAddress((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  const validateForm = (): boolean => {
+  const validateForm = () => {
     const { street, city, state, zipCode, country } = shippingAddress;
 
     if (
@@ -66,7 +54,7 @@ export function CheckoutForm({ cartItems }: CheckoutFormProps) {
     return true;
   };
 
-  const handleSubmitOrder = async (e: React.FormEvent) => {
+  const handleSubmitOrder = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {

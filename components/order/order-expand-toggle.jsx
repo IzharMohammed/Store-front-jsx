@@ -4,11 +4,7 @@ import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface OrderExpandToggleProps {
-  orderId: string;
-}
-
-export function OrderExpandToggle({ orderId }: OrderExpandToggleProps) {
+export function OrderExpandToggle({ orderId }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpansion = () => {
