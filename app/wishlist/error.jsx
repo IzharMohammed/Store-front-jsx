@@ -6,13 +6,7 @@ import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function Error({ error }) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
@@ -27,7 +21,7 @@ export default function Error({
           className="text-center"
         >
           <div className="text-red-500 text-lg mb-4">
-            Error loading wishlist: {(error as Error).message}
+            Error loading wishlist: {error.message}
           </div>
           <Button variant="outline" asChild>
             <Link href="/products">

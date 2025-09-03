@@ -4,15 +4,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Heart,
-  ShoppingCart,
-  ArrowRight,
-  Shield,
-  Zap,
-  Award,
-  Package,
-} from "lucide-react";
+import { Heart, Shield, Zap, Award, Package } from "lucide-react";
 import { WishlistItem } from "@/types/wishlist";
 import EmptyWishlist from "@/components/wishlist/empty-wishlist";
 import { getWishlistItems } from "@/actions/wishlist";
@@ -20,12 +12,8 @@ import { WishlistItemActions } from "@/components/wishlist/wishlist-item-actions
 import AddToCartButton from "@/components/cart/AddToCartButton";
 
 // Order Summary Component
-interface OrderSummaryProps {
-  items: WishlistItem[];
-  itemCount: number;
-}
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ items, itemCount }) => {
+const OrderSummary = ({ items, itemCount }) => {
   const subtotal = items.reduce((sum, item) => sum + item.product.price, 0);
   const savings = subtotal * 0.15; // 15% savings example
   const total = subtotal - savings;
@@ -95,11 +83,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ items, itemCount }) => {
 };
 
 // Wishlist item card component
-interface WishlistCardProps {
-  item: WishlistItem;
-}
 
-const WishlistCard: React.FC<WishlistCardProps> = ({ item }) => {
+const WishlistCard = ({ item }) => {
   return (
     <Card className="overflow-hidden border-0 bg-gradient-to-br from-background to-muted/30 backdrop-blur-sm hover:shadow-xl transition-all duration-500">
       <CardContent className="p-6">
