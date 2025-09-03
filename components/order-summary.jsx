@@ -5,11 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Package, Calendar } from "lucide-react";
 import { formatCurrency } from "@/utils/format";
-import type { Order } from "@/types/index";
-
-interface OrderSummaryProps {
-  order: Order;
-}
 
 const statusColors = {
   PENDING:
@@ -22,7 +17,7 @@ const statusColors = {
   CANCELLED: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
 };
 
-export function OrderSummary({ order }: OrderSummaryProps) {
+export function OrderSummary({ order }) {
   return (
     <Card>
       <CardHeader>

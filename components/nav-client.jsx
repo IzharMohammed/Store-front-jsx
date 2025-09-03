@@ -1,6 +1,5 @@
 "use client";
 
-import type React from "react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,6 @@ import {
   ShoppingCart,
   Heart,
   Menu,
-  X,
   Sun,
   Moon,
   User,
@@ -26,31 +24,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { logoutAction } from "@/actions/logout"; // You'll need to create this file
-import { PackageSearch } from 'lucide-react';
-
-interface AuthUser {
-  id: string;
-  email: string;
-  name: string;
-}
-
-interface UserDropdownProps {
-  user: AuthUser;
-}
-
-interface MobileMenuProps {
-  user: AuthUser | null;
-  isAuthenticated: boolean;
-}
+import { PackageSearch } from "lucide-react";
 
 // Search Form Component
 export function SearchForm() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       window.location.href = `/products?search=${encodeURIComponent(
@@ -60,10 +49,7 @@ export function SearchForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSearch}
-      className="flex flex-1 max-w-md mx-8"
-    >
+    <form onSubmit={handleSearch} className="flex flex-1 max-w-md mx-8">
       <div className="relative w-full">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
         <Input
@@ -95,7 +81,7 @@ export function ThemeToggle() {
 }
 
 // User Dropdown Component
-export function UserDropdown({ user }: UserDropdownProps) {
+export function UserDropdown({ user }) {
   const handleLogout = async () => {
     try {
       await logoutAction();
@@ -104,7 +90,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
     }
   };
 
-  const getUserInitials = (name: string) => {
+  const getUserInitials = (name) => {
     return name
       .split(" ")
       .map((word) => word.charAt(0))
@@ -153,11 +139,10 @@ export function UserDropdown({ user }: UserDropdownProps) {
 }
 
 // Combined Mobile Menu Component (includes button and menu)
-export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
+export function MobileMenu({ user, isAuthenticated }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { theme, setTheme } = useTheme();
-
 
   const handleLogout = async () => {
     try {
@@ -168,7 +153,7 @@ export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
     }
   };
 
-  const getUserInitials = (name: string) => {
+  const getUserInitials = (name) => {
     return name
       .split(" ")
       .map((word) => word.charAt(0))
@@ -178,7 +163,6 @@ export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
   };
 
   return (
-
     <>
       <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
         <SheetTrigger asChild>
@@ -189,20 +173,19 @@ export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
 
         <SheetContent side="left" className="w72 md:hidden">
           <SheetHeader>
-            <SheetTitle className="text-lg font-bold">
-              Menu
-            </SheetTitle>
+            <SheetTitle className="text-lg font-bold">Menu</SheetTitle>
           </SheetHeader>
 
           {isMenuOpen && (
             <div className="absolute top-16 left-0 right-0 bg-background md:hidden z-50">
               <div className="container mx-auto px-4 py-4 space-y-4">
-
                 <div className="flex flex-col space-y-2">
                   <Button
                     variant="ghost"
                     className="w-full justify-start"
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                    onClick={() =>
+                      setTheme(theme === "dark" ? "light" : "dark")
+                    }
                   >
                     {theme === "dark" ? (
                       <Sun className="w-4 h-4 mr-2" />
@@ -214,7 +197,7 @@ export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
 
                   <Link href="/products" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start">
-                      <PackageSearch className="w-4 h-4 mr-2"/>
+                      <PackageSearch className="w-4 h-4 mr-2" />
                       Products
                     </Button>
                   </Link>
@@ -247,22 +230,33 @@ export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium">{user.name}</span>
+                          <span className="text-sm font-medium">
+                            {user.name}
+                          </span>
                           <span className="text-xs text-muted-foreground">
                             {user.email}
                           </span>
                         </div>
                       </div>
 
-                      <Link href="/profile" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="ghost" className="w-full justify-start">
+                      <Link
+                        href="/profile"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                        >
                           <User className="w-4 h-4 mr-2" />
                           Profile
                         </Button>
                       </Link>
 
                       <Link href="/orders" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="ghost" className="w-full justify-start">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                        >
                           <Package className="w-4 h-4 mr-2" />
                           My Orders
                         </Button>
@@ -280,12 +274,17 @@ export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
                   ) : (
                     <>
                       <Link href="/signin" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="ghost" className="w-full justify-start">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                        >
                           Sign In
                         </Button>
                       </Link>
                       <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
-                        <Button className="w-full justify-start">Sign Up</Button>
+                        <Button className="w-full justify-start">
+                          Sign Up
+                        </Button>
                       </Link>
                     </>
                   )}
@@ -293,11 +292,8 @@ export function MobileMenu({ user, isAuthenticated }: MobileMenuProps) {
               </div>
             </div>
           )}
-
-        </SheetContent >
-      </Sheet >
+        </SheetContent>
+      </Sheet>
     </>
-
-
   );
 }

@@ -9,7 +9,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
-      retry: (failureCount, error: any) => {
+      retry: (failureCount, error) => {
         // Don't retry on 4xx errors except 408 (timeout)
         if (
           error?.status >= 400 &&
@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
       },
     },
     mutations: {
-      retry: (failureCount, error: any) => {
+      retry: (failureCount, error) => {
         // Don't retry mutations on client errors
         if (error?.status >= 400 && error?.status < 500) {
           return false;
@@ -33,11 +33,7 @@ const queryClient = new QueryClient({
   },
 });
 
-interface QueryProviderProps {
-  children: React.ReactNode;
-}
-
-export default function QueryProvider({ children }: QueryProviderProps) {
+export default function QueryProvider({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}

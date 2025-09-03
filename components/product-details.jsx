@@ -2,28 +2,9 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Heart, ShoppingCart, Truck, Shield, RotateCcw } from "lucide-react";
 import AddToCartButton from "./cart/AddToCartButton";
-import { WishlistButton } from "./wishlist/wishlistButton";
 
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  stock: number;
-  status: string;
-  createdAt: string;
-  storeId: string;
-}
-
-interface ProductDetailsProps {
-  product: Product;
-}
-
-export function ProductDetails({ product }: ProductDetailsProps) {
+export function ProductDetails({ product }) {
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",

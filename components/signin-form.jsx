@@ -22,17 +22,13 @@ import {
   redirectToSignup,
 } from "@/actions/signin";
 
-interface SigninFormProps {
-  onSuccess?: () => void;
-}
-
 const initialState = {
   success: false,
   error: null,
   user: undefined,
 };
 
-export function SigninForm({ onSuccess }: SigninFormProps) {
+export function SigninForm({ onSuccess }) {
   const [state, formAction, isPending] = useActionState(signin, initialState);
 
   const [formData, setFormData] = useState({
@@ -42,7 +38,7 @@ export function SigninForm({ onSuccess }: SigninFormProps) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,

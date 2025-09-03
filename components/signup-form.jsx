@@ -20,17 +20,13 @@ import { cn } from "@/utils/format";
 import { getPasswordStrength } from "@/utils/password-strength";
 import { signup, redirectToLogin } from "@/actions/signup";
 
-interface SignupFormProps {
-  onSuccess?: () => void;
-}
-
 const initialState = {
   success: false,
   error: null,
   user: undefined,
 };
 
-export function SignupForm({ onSuccess }: SignupFormProps) {
+export function SignupForm({ onSuccess }) {
   const [state, formAction, isPending] = useActionState(signup, initialState);
 
   const [formData, setFormData] = useState({
@@ -41,7 +37,7 @@ export function SignupForm({ onSuccess }: SignupFormProps) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -55,7 +51,7 @@ export function SignupForm({ onSuccess }: SignupFormProps) {
       onSuccess?.();
       // Auto redirect after 2 seconds
       setTimeout(() => {
-       redirectToLogin()
+        redirectToLogin();
       }, 2000);
     }
   }, [state.success, onSuccess]);
