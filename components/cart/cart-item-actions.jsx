@@ -7,17 +7,7 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { removeFromCart, updateCartQuantity } from "@/actions/cart";
 
-interface CartItemActionsProps {
-  cartId: string;
-  currentQuantity: number;
-  productName: string;
-}
-
-export function CartItemActions({
-  cartId,
-  currentQuantity,
-  productName,
-}: CartItemActionsProps) {
+export function CartItemActions({ cartId, currentQuantity, productName }) {
   const [isPending, startTransition] = useTransition();
   const [isRemoving, setIsRemoving] = useState(false);
 
@@ -36,7 +26,7 @@ export function CartItemActions({
     });
   };
 
-  const handleQuantityChange = (newQuantity: number) => {
+  const handleQuantityChange = (newQuantity) => {
     if (newQuantity < 1) return;
 
     startTransition(async () => {

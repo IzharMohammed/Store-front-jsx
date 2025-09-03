@@ -4,21 +4,13 @@ import { addToCart } from "@/actions/cart";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
-interface AddToCartButtonProps {
-  productId: string;
-  productName?: string;
-  quantity?: number;
-  className?: string;
-  disabled?: boolean;
-}
-
 export default function AddToCartButton({
   productId,
   productName = "Product",
   quantity = 1,
   className = "",
   disabled = false,
-}: AddToCartButtonProps) {
+}) {
   const [isPending, startTransition] = useTransition();
   const [isSuccess, setIsSuccess] = useState(false);
 
