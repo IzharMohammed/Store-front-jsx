@@ -1,19 +1,13 @@
-import type React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Zap } from "lucide-react";
-import type { Product } from "@/types/index";
 import { WishlistButton } from "../wishlist/wishlistButton";
 import AddToCartButton from "../cart/AddToCartButton";
 import { getWishlistItems } from "@/actions/wishlist";
 
-interface ProductCardProps {
-  product: Product;
-}
-
-export async function ProductCard({ product }: ProductCardProps) {
+export async function ProductCard({ product }) {
   const wishlistData = await getWishlistItems();
 
   return (

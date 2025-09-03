@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product/product-card";
-import { Product, ProductResponse } from "@/types/index";
-import { Flame, TrendingUp, Sparkles, Tag } from "lucide-react";
+import { Product } from "@/types/index";
+import { Flame, TrendingUp } from "lucide-react";
 import { getProducts } from "@/actions/products";
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ export async function Products() {
         {/* Products Grid */}
         {/* <AnimatePresence mode="wait"> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {products.map((product: Product, index: number) => (
+          {products.map((product, index) => (
             <div key={product.id}>
               <ProductCard product={product} />
             </div>
@@ -51,7 +51,7 @@ export async function Products() {
               size="lg"
               variant="outline"
               className="group border-2 hover:bg-muted/50 transition-all duration-300 px-8"
-              >
+            >
               <span className="mr-2">View All Products</span>
               <div>
                 <TrendingUp className="w-4 h-4" />

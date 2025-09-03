@@ -1,16 +1,8 @@
 "use client";
-
-import { ProductCard } from "@/components/product/product-card";
-// import { useProductStore } from "@/stores/product-store";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export function FeaturedProducts() {
-  // const { products } = useProductStore();
-
-  // Show first 4 products as featured
-  // const featuredProducts = products.slice(0, 4);
-
   return (
     <section className="py-12">
       <div className="text-center mb-8">
