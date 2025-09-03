@@ -1,17 +1,11 @@
-"use client"; 
+"use client";
 
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function ProductError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function ProductError({ error }) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
@@ -29,9 +23,7 @@ export default function ProductError({
             Error loading Products.
           </div>
           <Button variant="outline" asChild>
-            <Link href="/">
-              Go Back
-            </Link>
+            <Link href="/">Go Back</Link>
           </Button>
         </motion.div>
       </div>

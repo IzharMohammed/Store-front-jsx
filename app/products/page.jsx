@@ -1,4 +1,3 @@
-
 import { getProducts } from "@/actions/products";
 import ProductError from "./error";
 import { CategoryFilter } from "@/components/CategoryFilter";
@@ -6,32 +5,32 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product/product-card";
 
-
-
-export default async function ProductsPage({ searchParams, }: { searchParams?: Promise<{ category?: string }>; }) 
-{
+export default async function ProductsPage({ searchParams }) {
   const response = await getProducts();
   const products = response?.data || [];
 
   if (!response?.success) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <ProductError error={new Error(response?.error || "Failed")} reset={() => { }} />
+        <ProductError
+          error={new Error(response?.error || "Failed")}
+          reset={() => {}}
+        />
       </div>
     );
   }
 
   console.log(products[0]);
 
-  const resolvedParams =  await searchParams;
+  const resolvedParams = await searchParams;
   const selectedCategory = resolvedParams?.category;
   console.log(selectedCategory);
 
-  const filteredProducts = selectedCategory ? products.filter((p:any) => p.category === selectedCategory) : products;
+  const filteredProducts = selectedCategory
+    ? products.filter((p) => p.category === selectedCategory)
+    : products;
 
   console.log(filteredProducts[0]);
-
-
 
   return (
     <div className="container mx-auto px-20 py-8">
@@ -56,6 +55,6 @@ export default async function ProductsPage({ searchParams, }: { searchParams?: P
           </div>
         )}
       </div>
-    </div >
+    </div>
   );
 }
