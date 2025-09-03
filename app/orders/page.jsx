@@ -1,5 +1,3 @@
-import React from "react";
-import { Order } from "@/types";
 import { getOrders } from "@/actions/order";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,7 +10,6 @@ import {
   Phone,
   User,
   ShoppingBag,
-  RefreshCw,
 } from "lucide-react";
 import Link from "next/link";
 import { OrderExpandToggle } from "@/components/order/order-expand-toggle";
@@ -39,15 +36,15 @@ const statusIcons = {
   CANCELLED: "❌",
 };
 
-const formatAddress = (address: string | object): string => {
+const formatAddress = (address) => {
   if (typeof address === "string") {
     return address;
   }
-  const addr = address as any;
+  const addr = address;
   return `${addr.street}, ${addr.city}, ${addr.state} ${addr.zipCode}, ${addr.country}`;
 };
 
-const formatDate = (dateString: string): string => {
+const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -58,11 +55,8 @@ const formatDate = (dateString: string): string => {
 };
 
 // Order Item Component
-interface OrderItemProps {
-  item: any;
-}
 
-const OrderItem: React.FC<OrderItemProps> = ({ item }) => {
+const OrderItem = ({ item }) => {
   return (
     <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-lg border">
       {(item.productImage || item.product?.image) && (
@@ -92,12 +86,8 @@ const OrderItem: React.FC<OrderItemProps> = ({ item }) => {
 };
 
 // Order Card Component
-interface OrderCardProps {
-  order: Order;
-  index: number;
-}
 
-const OrderCard: React.FC<OrderCardProps> = ({ order, index }) => {
+const OrderCard = ({ order, index }) => {
   return (
     <Card className="overflow-hidden border-0 bg-gradient-to-br from-background to-muted/30 backdrop-blur-sm hover:shadow-xl transition-all duration-500">
       <CardContent className="p-6">
@@ -221,7 +211,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, index }) => {
 };
 
 // Empty State Component
-const EmptyOrders: React.FC = () => {
+const EmptyOrders = () => {
   return (
     <div className="text-center p-8 max-w-md mx-auto">
       <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -246,7 +236,7 @@ const EmptyOrders: React.FC = () => {
 };
 
 // Loading State Component
-const OrdersLoading: React.FC = () => {
+const OrdersLoading = () => {
   return (
     <div className="flex justify-center items-center min-h-[400px]">
       <div className="flex flex-col items-center space-y-4">
@@ -258,11 +248,7 @@ const OrdersLoading: React.FC = () => {
 };
 
 // Error State Component
-interface OrdersErrorProps {
-  error: Error;
-}
-
-const OrdersError: React.FC<OrdersErrorProps> = ({ error }) => {
+const OrdersError = ({ error }) => {
   return (
     <div className="text-center p-8 max-w-md mx-auto">
       <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -333,7 +319,7 @@ export default async function OrdersPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
         <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <OrdersError error={error as Error} />
+          <OrdersError error={error} />
         </div>
       </div>
     );
