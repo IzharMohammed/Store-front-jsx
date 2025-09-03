@@ -6,15 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { removeFromWishlist } from "@/actions/wishlist";
 
-interface WishlistItemActionsProps {
-  itemId: string;
-  productName: string;
-}
-
-export function WishlistItemActions({
-  itemId,
-  productName,
-}: WishlistItemActionsProps) {
+export function WishlistItemActions({ itemId, productName }) {
   const [isPending, setIsPending] = useState(false);
 
   const handleRemove = async () => {

@@ -1,36 +1,13 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { cn } from "@/utils/format";
 import { toast } from "sonner";
-import {
-  addToWishlist,
-  getWishlistItems,
-  removeFromWishlist,
-} from "@/actions/wishlist";
+import { addToWishlist, removeFromWishlist } from "@/actions/wishlist";
 
-interface WishlistButtonProps {
-  productId: string;
-  variant?: "default" | "outline" | "ghost";
-  size?: "sm" | "default" | "lg";
-  className?: string;
-  wishlistData: any;
-  onWishlistChange?: () => void; // Optional callback for parent components
-}
-
-interface AddToWishlistResponse {
-  success: boolean;
-  message: string;
-}
-
-interface RemoveFromWishlistResponse {
-  success: boolean;
-  message: string;
-}
-
-export const WishlistButton: React.FC<WishlistButtonProps> = ({
+export const WishlistButton = ({
   wishlistData,
   productId,
   variant = "outline",
@@ -41,10 +18,9 @@ export const WishlistButton: React.FC<WishlistButtonProps> = ({
   const [isPending, startTransition] = useTransition();
 
   const isInWishlist =
-    wishlistData?.data?.some((item: any) => item.productId === productId) ||
-    false;
+    wishlistData?.data?.some((item) => item.productId === productId) || false;
   const wishlistItem = wishlistData?.data?.find(
-    (item: any) => item.productId === productId
+    (item) => item.productId === productId
   );
 
   // Toggle wishlist status
