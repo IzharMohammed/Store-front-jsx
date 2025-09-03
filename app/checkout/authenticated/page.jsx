@@ -19,7 +19,7 @@ import { getCartItems } from "@/actions/cart";
 import { CheckoutForm } from "@/components/order/checkout-form";
 
 // Empty Cart Component
-const EmptyCart: React.FC = () => {
+const EmptyCart = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -49,12 +49,8 @@ const EmptyCart: React.FC = () => {
 };
 
 // Order Item Component
-interface OrderItemProps {
-  item: any;
-  index: number;
-}
 
-const OrderItem: React.FC<OrderItemProps> = ({ item, index }) => {
+const OrderItem = ({ item, index }) => {
   return (
     <div className="flex items-center space-x-4 p-4 rounded-lg border bg-muted/30">
       <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-muted shrink-0">
@@ -88,11 +84,8 @@ const OrderItem: React.FC<OrderItemProps> = ({ item, index }) => {
 };
 
 // Order Summary Component
-interface OrderSummaryProps {
-  items: any[];
-}
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ items }) => {
+const OrderSummary = ({ items }) => {
   const subtotal = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
@@ -181,7 +174,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ items }) => {
 // Main Checkout Page
 export default async function CheckoutPage() {
   let cartData;
-  
+
   try {
     cartData = await getCartItems();
   } catch (error) {
