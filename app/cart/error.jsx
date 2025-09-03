@@ -9,9 +9,6 @@ import { useEffect } from "react";
 export default function Error({
   error,
   reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
@@ -27,7 +24,7 @@ export default function Error({
           className="text-center"
         >
           <div className="text-red-500 text-lg mb-4">
-            Error loading cart: {(error as Error).message}
+            Error loading cart: {(error).message}
           </div>
           <Button variant="outline" asChild>
             <Link href="/products">

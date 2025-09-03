@@ -10,56 +10,6 @@ import { SigninForm } from "@/components/signin-form";
 import { cookieManager } from "@/utils/authTools";
 import { redirect } from "next/navigation";
 
-// Animation variants
-// const containerVariants: Variants = {
-//   hidden: { opacity: 0, scale: 0.95 },
-//   visible: {
-//     opacity: 1,
-//     scale: 1,
-//     transition: {
-//       duration: 0.5,
-//       staggerChildren: 0.1,
-//     },
-//   },
-// };
-
-// const itemVariants: Variants = {
-//   hidden: { opacity: 0, y: 20 },
-//   visible: {
-//     opacity: 1,
-//     y: 0,
-//     transition: {
-//       type: "spring",
-//       stiffness: 100,
-//       damping: 15,
-//     },
-//   },
-// };
-
-// const floatingVariants: Variants = {
-//   animate: {
-//     y: [-10, 10, -10],
-//     rotate: [-5, 5, -5],
-//     transition: {
-//       duration: 6,
-//       repeat: Infinity,
-//       ease: "easeInOut",
-//     },
-//   },
-// };
-
-// const sparkleVariants: Variants = {
-//   animate: {
-//     scale: [1, 1.2, 1],
-//     opacity: [0.7, 1, 0.7],
-//     transition: {
-//       duration: 2,
-//       repeat: Infinity,
-//       ease: "easeInOut",
-//     },
-//   },
-// };
-
 async function checkAuthentication() {
   const isAuthenticated = await cookieManager.isAuthenticated();
   if (isAuthenticated) {
