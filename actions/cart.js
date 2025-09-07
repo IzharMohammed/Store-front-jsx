@@ -58,6 +58,15 @@ export async function addToCart(productId, quantity) {
       message: "Server configuration error. Please try again later.",
     };
   }
+  
+  const isAuthenticated = await cookieManager.isAuthenticated();
+  if (!isAuthenticated) {
+    return {
+      success: false,
+      reason: "unauthenticated",
+      message: "Please login to add items to your cart",
+    };
+  }
 
   // Basic validation
   if (!productId || !quantity) {

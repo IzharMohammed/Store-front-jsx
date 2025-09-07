@@ -3,6 +3,7 @@
 import { addToCart } from "@/actions/cart";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
+import { useOverlay } from "@/components/OverlayProvider";
 
 export default function AddToCartButton({
   productId,
@@ -13,16 +14,29 @@ export default function AddToCartButton({
 }) {
   const [isPending, startTransition] = useTransition();
   const [isSuccess, setIsSuccess] = useState(false);
+  const { openOverlay } = useOverlay();
 
   const handleAddToCart = async () => {
     startTransition(async () => {
-      try {
-        await addToCart(productId, quantity);
+      const result = await addToCart(productId, quantity);
+
+      if (result.success) {
         setIsSuccess(true);
         toast.success(`${productName} added to cart successfully!`);
         setTimeout(() => setIsSuccess(false), 3000);
-      } catch (error) {
-        toast.error("Failed to add to cart");
+      } else if (result.reason === "unauthenticated") {
+        openOverlay("signin", async () => {
+          const retryResult = await addToCart(productId, quantity);
+          if (retryResult.success) {
+            setIsSuccess(true);
+            toast.success(retryResult.message || `${productName} added to cart successfully!`);
+            setTimeout(() => setIsSuccess(false), 3000);
+          } else {
+            toast.error(retryResult.message);
+          }
+        });
+      } else {
+        toast.error(result.message);
       }
     });
   };

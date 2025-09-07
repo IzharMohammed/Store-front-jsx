@@ -80,7 +80,7 @@ export async function signup(prevState, formData) {
 }
 
 export async function redirectToLogin() {
-  redirect("/login");
+  redirect("/signin");
 }
 
 export async function redirectToDashboard() {

@@ -26,7 +26,7 @@ const initialState = {
   user: undefined,
 };
 
-export function SignupForm({ onSuccess }) {
+export function SignupForm({ onSuccess, showSignupLink = true }) {
   const [state, formAction, isPending] = useActionState(signup, initialState);
 
   const [formData, setFormData] = useState({
@@ -52,6 +52,7 @@ export function SignupForm({ onSuccess }) {
       // Auto redirect after 2 seconds
       setTimeout(() => {
         redirectToLogin();
+        
       }, 2000);
     }
   }, [state.success, onSuccess]);
@@ -343,16 +344,18 @@ export function SignupForm({ onSuccess }) {
           </div>
         </div>
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          type="button"
-          className="text-primary hover:text-primary/80 font-medium transition-colors mt-4"
-          onClick={() => redirectToLogin()}
-          disabled={isPending}
-        >
-          Sign in instead →
-        </motion.button>
+        {showSignupLink && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="button"
+            className="text-primary hover:text-primary/80 font-medium transition-colors mt-4"
+            onClick={() => redirectToLogin()}
+            disabled={isPending}
+          >
+            Sign in instead →
+          </motion.button>
+        )}
       </div>
     </motion.form>
   );

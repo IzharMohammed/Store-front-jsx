@@ -20,17 +20,13 @@ export default async function ProductsPage({ searchParams }) {
     );
   }
 
-  console.log(products[0]);
-
   const resolvedParams = await searchParams;
   const selectedCategory = resolvedParams?.category;
-  console.log(selectedCategory);
 
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category === selectedCategory)
     : products;
 
-  console.log(filteredProducts[0]);
 
   return (
     <div className="container mx-auto px-20 py-8">
