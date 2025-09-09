@@ -67,8 +67,8 @@ jobs:
             sudo docker run -d \
               --name storefront \
               -p 3000:3000 \
-              -e BACKEND_URL=${{secrets.BACKEND_URL}} \
-              -e BACKEND_API_KEY=${{secerts.BACKEND_API_KEY}} \
+              -e BACKEND_URL=${{ secrets.BACKEND_URL }} \
+              -e BACKEND_API_KEY=${{ secerts.BACKEND_API_KEY }} \
               --restart unless-stopped \
               izhardev/storefront:latest
               
