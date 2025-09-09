@@ -9,6 +9,7 @@ import EmptyWishlist from "@/components/wishlist/empty-wishlist";
 import { getWishlistItems } from "@/actions/wishlist";
 import { WishlistItemActions } from "@/components/wishlist/wishlist-item-actions";
 import AddToCartButton from "@/components/cart/AddToCartButton";
+import { cookieManager } from "@/utils/authTools";
 
 // Order Summary Component
 
@@ -81,9 +82,10 @@ const OrderSummary = ({ items, itemCount }) => {
   );
 };
 
-// Wishlist item card component
+// Wishlist item carasync d component
 
-const WishlistCard = ({ item }) => {
+const WishlistCard = async ({ item }) => {
+  const isAuthenticated = await cookieManager.isAuthenticated();
   return (
     <Card className="overflow-hidden border-0 bg-gradient-to-br from-background to-muted/30 backdrop-blur-sm hover:shadow-xl transition-all duration-500">
       <CardContent className="p-6">
@@ -151,7 +153,10 @@ const WishlistCard = ({ item }) => {
             {item.product.stock === 0 ? (
               "Out of Stock"
             ) : (
-              <AddToCartButton productId={item.productId} />
+              <AddToCartButton
+                isAuthenticated={isAuthenticated}
+                productId={item.productId}
+              />
             )}
             {/* </Button> */}
           </div>

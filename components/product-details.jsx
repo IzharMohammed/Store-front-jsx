@@ -3,8 +3,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import AddToCartButton from "./cart/AddToCartButton";
+import { cookieManager } from "@/utils/authTools";
 
-export function ProductDetails({ product }) {
+export async function ProductDetails({ product }) {
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -12,6 +13,8 @@ export function ProductDetails({ product }) {
 
   const isInStock = product.stock > 0;
   const isLowStock = product.stock > 0 && product.stock <= 10;
+
+  const isAuthenticated = await cookieManager.isAuthenticated();
 
   return (
     <div className="min-h-screen">
@@ -119,7 +122,10 @@ export function ProductDetails({ product }) {
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   Add to Cart
                 </Button> */}
-                <AddToCartButton productId={product.id} />
+                <AddToCartButton
+                  isAuthenticated={isAuthenticated}
+                  productId={product.id}
+                />
                 {/* <Button size="lg" variant="outline" className="px-8"> */}
                 {/* <WishlistButton productId={product.id} /> */}
                 {/* </Button> */}
