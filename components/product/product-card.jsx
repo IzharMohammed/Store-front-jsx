@@ -48,6 +48,7 @@ export async function ProductCard({ product }) {
           <div className="absolute top-3 right-3">
             <div>
               <WishlistButton
+                isAuthenticated={isAuthenticated}
                 wishlistData={wishlistData}
                 productId={product.id}
                 variant="ghost"

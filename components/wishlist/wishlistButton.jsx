@@ -6,8 +6,10 @@ import { Heart } from "lucide-react";
 import { cn } from "@/utils/format";
 import { toast } from "sonner";
 import { addToWishlist, removeFromWishlist } from "@/actions/wishlist";
+import { useOverlay } from "../OverlayProvider";
 
 export const WishlistButton = ({
+  isAuthenticated,
   wishlistData,
   productId,
   variant = "outline",
@@ -16,6 +18,7 @@ export const WishlistButton = ({
   onWishlistChange,
 }) => {
   const [isPending, startTransition] = useTransition();
+  const { openOverlay } = useOverlay();
 
   const isInWishlist =
     wishlistData?.data?.some((item) => item.productId === productId) || false;
@@ -23,8 +26,7 @@ export const WishlistButton = ({
     (item) => item.productId === productId
   );
 
-  // Toggle wishlist status
-  const handleToggleWishlist = async () => {
+  const addToWishlistAction = async () => {
     if (isInWishlist && wishlistItem) {
       startTransition(async () => {
         try {
@@ -34,7 +36,6 @@ export const WishlistButton = ({
           toast.error("Failed to remove item from wishlist");
         }
       });
-      // removeFromWishlistMutation.mutate({ itemId: wishlistItem.id });
     } else {
       startTransition(async () => {
         try {
@@ -43,6 +44,20 @@ export const WishlistButton = ({
         } catch (error) {
           toast.error("Failed to add item to wishlist");
         }
+      });
+    }
+  };
+
+  // Toggle wishlist status
+  const handleToggleWishlist = async () => {
+    alert(isAuthenticated);
+    if (isAuthenticated) {
+      startTransition(() => {
+        addToWishlistAction();
+      });
+    } else {
+      startTransition(() => {
+        openOverlay("signin", async () => addToWishlistAction());
       });
     }
   };

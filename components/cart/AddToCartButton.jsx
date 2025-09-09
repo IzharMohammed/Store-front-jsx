@@ -17,31 +17,29 @@ export default function AddToCartButton({
   const [isSuccess, setIsSuccess] = useState(false);
   const { openOverlay } = useOverlay();
 
+  const handleCartAction = async () => {
+    const retryResult = await addToCart(productId, quantity);
+    if (retryResult.success) {
+      setIsSuccess(true);
+      toast.success(
+        retryResult.message || `${productName} added to cart successfully!`
+      );
+      setTimeout(() => setIsSuccess(false), 3000);
+    } else {
+      toast.error(retryResult.message);
+    }
+  };
+
   const handleAddToCart = async () => {
     alert(isAuthenticated);
-    const result = await addToCart(productId, quantity);
-    console.log(result);
     if (isAuthenticated) {
-      startTransition(async () => {
-        setIsSuccess(true);
-        toast.success(`${productName} added to cart successfully!`);
-        setTimeout(() => setIsSuccess(false), 3000);
-      });
-    } else if (result.reason === "unauthenticated") {
-      openOverlay("signin", async () => {
-        const retryResult = await addToCart(productId, quantity);
-        if (retryResult.success) {
-          setIsSuccess(true);
-          toast.success(
-            retryResult.message || `${productName} added to cart successfully!`
-          );
-          setTimeout(() => setIsSuccess(false), 3000);
-        } else {
-          toast.error(retryResult.message);
-        }
+      startTransition(() => {
+        handleCartAction();
       });
     } else {
-      toast.error(result.message);
+      startTransition(() => {
+        openOverlay("signin", async () => handleCartAction());
+      });
     }
   };
 
