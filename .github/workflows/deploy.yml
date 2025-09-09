@@ -34,7 +34,7 @@ jobs:
           file: Dockerfile # Dockerfile location
           push: true # Push image to registry
           tags: |
-            izhardev/storefront:latest  # Tag the image
+            izhardev/storefront:latest  
 
       # Step 5: Verify the image was pushed successfully
       - name: Verify Storefront Image
