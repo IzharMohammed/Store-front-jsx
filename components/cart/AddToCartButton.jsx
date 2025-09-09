@@ -13,12 +13,14 @@ export default function AddToCartButton({
   className = "",
   disabled = false,
 }) {
-  const [isPending, startTransition] = useTransition();
   const [isSuccess, setIsSuccess] = useState(false);
   const { openOverlay } = useOverlay();
+  const [isPending, setIsPending] = useState(false);
 
   const handleCartAction = async () => {
+    setIsPending(true);
     const retryResult = await addToCart(productId, quantity);
+    setIsPending(false);
     if (retryResult.success) {
       setIsSuccess(true);
       toast.success(
@@ -31,15 +33,10 @@ export default function AddToCartButton({
   };
 
   const handleAddToCart = async () => {
-    alert(isAuthenticated);
     if (isAuthenticated) {
-      startTransition(() => {
-        handleCartAction();
-      });
+      handleCartAction();
     } else {
-      startTransition(() => {
-        openOverlay("signin", async () => handleCartAction());
-      });
+      openOverlay("signin", async () => handleCartAction());
     }
   };
 

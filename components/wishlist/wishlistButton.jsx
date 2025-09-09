@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { cn } from "@/utils/format";
@@ -17,8 +17,8 @@ export const WishlistButton = ({
   className,
   onWishlistChange,
 }) => {
-  const [isPending, startTransition] = useTransition();
   const { openOverlay } = useOverlay();
+  const [isPending, setIsPending] = useState(false);
 
   const isInWishlist =
     wishlistData?.data?.some((item) => item.productId === productId) || false;
@@ -27,38 +27,32 @@ export const WishlistButton = ({
   );
 
   const addToWishlistAction = async () => {
+    setIsPending(true);
     if (isInWishlist && wishlistItem) {
-      startTransition(async () => {
-        try {
-          await removeFromWishlist(wishlistItem.id);
-          toast.success("Item removed from wishlist");
-        } catch (error) {
-          toast.error("Failed to remove item from wishlist");
-        }
-      });
+      try {
+        await removeFromWishlist(wishlistItem.id);
+        setIsPending(false);
+        toast.success("Item removed from wishlist");
+      } catch (error) {
+        toast.error("Failed to remove item from wishlist");
+      }
     } else {
-      startTransition(async () => {
-        try {
-          await addToWishlist(productId);
-          toast.success("Item added to wishlist");
-        } catch (error) {
-          toast.error("Failed to add item to wishlist");
-        }
-      });
+      try {
+        await addToWishlist(productId);
+        setIsPending(false);
+        toast.success("Item added to wishlist");
+      } catch (error) {
+        toast.error("Failed to add item to wishlist");
+      }
     }
   };
 
   // Toggle wishlist status
   const handleToggleWishlist = async () => {
-    alert(isAuthenticated);
     if (isAuthenticated) {
-      startTransition(() => {
-        addToWishlistAction();
-      });
+      addToWishlistAction();
     } else {
-      startTransition(() => {
-        openOverlay("signin", async () => addToWishlistAction());
-      });
+      openOverlay("signin", async () => addToWishlistAction());
     }
   };
 
