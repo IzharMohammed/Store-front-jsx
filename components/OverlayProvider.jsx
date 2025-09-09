@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 import SignUpOverlay from "@/components/signUpOverlay";
-import SignInOverlay from "@/components/signInOverlay"
+import SignInOverlay from "@/components/signInOverlay";
 
 const OverlayContext = createContext(null);
 

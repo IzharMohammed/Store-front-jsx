@@ -6,10 +6,11 @@ import { Star, Zap } from "lucide-react";
 import { WishlistButton } from "../wishlist/wishlistButton";
 import AddToCartButton from "../cart/AddToCartButton";
 import { getWishlistItems } from "@/actions/wishlist";
+import { cookieManager } from "@/utils/authTools";
 
 export async function ProductCard({ product }) {
   const wishlistData = await getWishlistItems();
-
+  const isAuthenticated = await cookieManager.isAuthenticated();
   return (
     <div className="group">
       <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-background to-muted/30 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
@@ -106,6 +107,7 @@ export async function ProductCard({ product }) {
         <CardFooter className="p-4 pt-0">
           <div className="w-full">
             <AddToCartButton
+              isAuthenticated={isAuthenticated}
               productId={product.id}
               productName={product.name}
               className="w-full group relative overflow-hidden bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black dark:from-slate-200 dark:to-white dark:hover:from-white dark:hover:to-slate-100 dark:text-black border-0 shadow-lg transition-all duration-300"
