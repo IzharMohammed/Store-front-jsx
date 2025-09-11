@@ -1,3 +1,4 @@
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -19,6 +20,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "www.pexels.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.storekit.app",
         pathname: "/**",
       },
     ],

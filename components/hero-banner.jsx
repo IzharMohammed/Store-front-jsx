@@ -1,40 +1,74 @@
-"use client"
+import Image from "next/image";
+import { getBanners } from "@/actions/banner";
+import { BannerCarousel } from "./banner-carousel";
 
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import Image from "next/image"
+export async function HeroBanner() {
+  const response = await getBanners();
 
-export function HeroBanner() {
-  return (
-    <div className="relative h-[500px] bg-gradient-to-r from-gray-900 to-gray-600 overflow-hidden">
-      <div className="absolute inset-0">
-        <Image
-          src="/placeholder.svg?height=500&width=1200"
-          alt="Hero Banner"
-          fill
-          className="object-cover opacity-50"
-        />
-      </div>
-      <div className="relative container mx-auto px-4 h-full flex items-center">
-        <div className="max-w-2xl text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Discover Amazing Products</h1>
-          <p className="text-xl mb-8">Shop the latest trends and find everything you need in one place</p>
-          <div className="space-x-4">
-            <Link href="/products">
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100">
-                Shop Now
-              </Button>
-            </Link>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-white border-white hover:bg-white hover:text-black bg-transparent"
+  if (!response.success || response.data.length === 0) {
+    return (
+      <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 mx-auto bg-gray-200 rounded-full flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              Learn More
-            </Button>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
           </div>
+          <h3 className="text-lg font-medium text-gray-600">
+            No Banners Available
+          </h3>
+          <p className="text-gray-500">Check back later for exciting offers!</p>
         </div>
       </div>
-    </div>
-  )
+    );
+  }
+
+  const banners = response.data;
+
+  // Single banner - no carousel needed
+  if (banners.length === 1) {
+    const banner = banners[0];
+    return (
+      <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-xl group">
+        <div className="relative w-full h-full">
+          <Image
+            src={banner.image}
+            alt={banner.title || "Banner"}
+            fill
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+          />
+
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
+
+          {/* Banner Title */}
+          {banner.title && (
+            <div className="absolute bottom-8 left-8 right-8 md:bottom-12 md:left-12 md:right-12">
+              <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 md:p-6 shadow-lg">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
+                  {banner.title}
+                </h2>
+                <div className="w-16 h-1 bg-blue-500 rounded-full"></div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Multiple banners - use carousel
+  return <BannerCarousel banners={banners} />;
 }
