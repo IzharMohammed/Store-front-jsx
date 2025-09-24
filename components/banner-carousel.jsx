@@ -63,7 +63,7 @@ export function BannerCarousel({ banners }) {
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
         
         {/* Banner Title */}
-        {currentBanner.title && (
+        {/* {currentBanner.title && (
           <div className="absolute bottom-8 left-8 right-8 md:bottom-12 md:left-12 md:right-12">
             <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 md:p-6 shadow-lg transform transition-all duration-500 translate-y-0 opacity-100">
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
@@ -72,7 +72,7 @@ export function BannerCarousel({ banners }) {
               <div className="w-16 h-1 bg-blue-500 rounded-full"></div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Navigation Arrows */}
