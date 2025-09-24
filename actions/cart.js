@@ -58,7 +58,7 @@ export async function addToCart(productId, quantity) {
       message: "Server configuration error. Please try again later.",
     };
   }
-  
+
   const isAuthenticated = await cookieManager.isAuthenticated();
   if (!isAuthenticated) {
     return {
@@ -145,7 +145,7 @@ export async function removeFromCart(cartId) {
   }
 }
 
-export async function updateCartQuantity(cartId, quantity) {
+export async function updateCartQuantity(cartId, newQuantity) {
   try {
     const userData = await cookieManager.getAuthUser();
     const headers = {
@@ -161,7 +161,11 @@ export async function updateCartQuantity(cartId, quantity) {
     const response = await fetch(`${BACKEND_URL}/v1/cart/update`, {
       method: "PATCH",
       headers,
-      body: JSON.stringify({ cartId, quantity }),
+      body: JSON.stringify({
+        cartItemId: cartId,
+        action: "set",
+        quantity: newQuantity,
+      }),
     });
 
     if (!response.ok) {
