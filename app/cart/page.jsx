@@ -89,7 +89,7 @@ export default async function CartPage() {
                                 </h3>
                               </Link>
                               <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
-                                {/* {item.product.description} */}
+                                {item.product.description}
                               </p>
                             </div>
                           </div>

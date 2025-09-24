@@ -11,92 +11,83 @@ import { cookieManager } from "@/utils/authTools";
 export async function ProductCard({ product }) {
   const wishlistData = await getWishlistItems();
   const isAuthenticated = await cookieManager.isAuthenticated();
+  
   return (
     <div className="group">
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-background to-muted/30 backdrop-blur-sm hover:shadow-2xl transition-all duration-500">
+      <Card className="relative overflow-hidden bg-white dark:bg-card hover:shadow-lg transition-shadow duration-300 h-full">
         {/* Product Image Container */}
         <div className="relative overflow-hidden">
           <Link href={`/products/${product.id}`}>
-            <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-muted/20 to-muted/40">
-              <div>
-                <Image
-                  src={product.image || "/placeholder.svg?height=300&width=300"}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="aspect-square relative overflow-hidden bg-gray-50 dark:bg-muted">
+              <Image
+                src={product.image || "/placeholder.svg?height=240&width=240"}
+                alt={product.name}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+              />
             </div>
           </Link>
 
           {/* Stock Badge */}
           {product.stock === 0 ? (
-            <Badge className="absolute top-3 left-3 bg-red-500 hover:bg-red-600 text-white border-0">
+            <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600 text-white border-0 text-xs">
               Out of Stock
             </Badge>
           ) : product.stock <= 10 ? (
-            <Badge className="absolute top-3 left-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0">
+            <Badge className="absolute top-2 left-2 bg-orange-500 hover:bg-orange-600 text-white border-0 text-xs">
               <Zap className="w-3 h-3 mr-1" />
               {product.stock} left
             </Badge>
           ) : null}
 
           {/* Wishlist Button */}
-          <div className="absolute top-3 right-3">
-            <div>
-              <WishlistButton
-                isAuthenticated={isAuthenticated}
-                wishlistData={wishlistData}
-                productId={product.id}
-                variant="ghost"
-                size="sm"
-                className="bg-white/90 hover:bg-white text-black border-0 shadow-lg backdrop-blur-sm"
-              />
-            </div>
+          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <WishlistButton
+              isAuthenticated={isAuthenticated}
+              wishlistData={wishlistData}
+              productId={product.id}
+              variant="ghost"
+              size="sm"
+              className="bg-white hover:bg-gray-50 text-gray-700 border shadow-sm h-8 w-8"
+            />
           </div>
         </div>
 
         {/* Product Info */}
-        <CardContent className="p-4 space-y-3">
+        <CardContent className="p-3 space-y-2 flex-1">
           <Link href={`/products/${product.id}`}>
-            <h3 className="font-semibold text-base leading-tight hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition-all duration-300 line-clamp-2">
+            <h3 className="font-medium text-sm leading-tight hover:text-blue-600 transition-colors duration-200 line-clamp-2 min-h-[2.5rem]">
               {product.name}
             </h3>
           </Link>
 
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground font-medium bg-gradient-to-r from-muted-foreground to-muted-foreground/80 bg-clip-text">
+          {/* Category and Rating */}
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground capitalize">
               {product.category}
-            </p>
+            </span>
 
             {/* Rating */}
             <div className="flex items-center gap-1">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i}>
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  </div>
+                  <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <span className="text-xs text-muted-foreground ml-1">(4.5)</span>
+              <span className="text-muted-foreground">(4.5)</span>
             </div>
           </div>
 
           {/* Price */}
           <div className="flex items-center justify-between">
-            <div>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                ${product.price}
-              </span>
-            </div>
+            <span className="text-lg font-bold text-gray-900 dark:text-white">
+              ${product.price}
+            </span>
 
             {product.stock > 0 && product.stock <= 10 && (
               <Badge
                 variant="outline"
-                className="text-xs border-orange-200 text-orange-600 bg-orange-50 dark:border-orange-800 dark:text-orange-400 dark:bg-orange-950/20"
+                className="text-xs border-orange-300 text-orange-600 bg-orange-50 dark:border-orange-800 dark:text-orange-400 dark:bg-orange-950/20"
               >
                 Only {product.stock} left
               </Badge>
@@ -104,23 +95,15 @@ export async function ProductCard({ product }) {
           </div>
         </CardContent>
 
-        {/* Footer with main CTA */}
-        <CardFooter className="p-4 pt-0">
-          <div className="w-full">
-            <AddToCartButton
-              isAuthenticated={isAuthenticated}
-              productId={product.id}
-              productName={product.name}
-              className="w-full group relative overflow-hidden bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black dark:from-slate-200 dark:to-white dark:hover:from-white dark:hover:to-slate-100 dark:text-black border-0 shadow-lg transition-all duration-300"
-            />
-          </div>
+        {/* Footer with Add to Cart */}
+        <CardFooter className="p-3 pt-0">
+          <AddToCartButton
+            isAuthenticated={isAuthenticated}
+            productId={product.id}
+            productName={product.name}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0 transition-colors duration-200 h-9 text-sm font-medium"
+          />
         </CardFooter>
-
-        {/* Hover effect overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-        {/* Animated border */}
-        <div className="absolute inset-0 rounded-lg pointer-events-none" />
       </Card>
     </div>
   );
