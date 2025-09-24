@@ -11,7 +11,7 @@ import { cookieManager } from "@/utils/authTools";
 export async function ProductCard({ product }) {
   const wishlistData = await getWishlistItems();
   const isAuthenticated = await cookieManager.isAuthenticated();
-  
+
   return (
     <div className="group">
       <Card className="relative overflow-hidden bg-white dark:bg-card hover:shadow-lg transition-shadow duration-300 h-full">
@@ -71,7 +71,10 @@ export async function ProductCard({ product }) {
             <div className="flex items-center gap-1">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  <Star
+                    key={i}
+                    className="w-3 h-3 fill-amber-400 text-amber-400"
+                  />
                 ))}
               </div>
               <span className="text-muted-foreground">(4.5)</span>
@@ -101,7 +104,8 @@ export async function ProductCard({ product }) {
             isAuthenticated={isAuthenticated}
             productId={product.id}
             productName={product.name}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0 transition-colors duration-200 h-9 text-sm font-medium"
+            // className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0 transition-colors duration-200 h-9 text-sm font-medium"
+            className="w-full bg-black hover:bg-gray-800 text-white dark:bg-white dark:hover:bg-gray-100 dark:text-black border-0 transition-colors duration-200 h-9 text-sm font-medium"
           />
         </CardFooter>
       </Card>
