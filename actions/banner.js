@@ -28,10 +28,12 @@ export async function getBanners() {
     };
 
     // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    // if (userData) {
+    //   headers["x-customer-id"] = userData.id;
+    // }
 
+    console.log("userData",userData);
+    
     const response = await fetch(`${BACKEND_URL}/v1/banners`, {
       method: "GET",
       headers,
