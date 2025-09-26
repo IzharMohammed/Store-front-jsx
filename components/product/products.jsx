@@ -6,7 +6,8 @@ import Link from "next/link";
 
 export async function Products() {
   const response = await getProducts();
-
+  console.log("response",response);
+  
   const products = response?.data || [];
 
   return (
