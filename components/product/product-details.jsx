@@ -8,6 +8,7 @@ import { getCartItems } from "@/actions/cart";
 import { getWishlistItems } from "@/actions/wishlist";
 import CartQuantityControls from "../cart/cart-quantity-controls";
 import { WishlistButton } from "../wishlist/wishlistButton";
+import { ProductFeedbackSection } from "@/components/feedback/product-feedback-section";
 
 export async function ProductDetails({ product }) {
   const formattedPrice = new Intl.NumberFormat("en-US", {
@@ -260,6 +261,9 @@ export async function ProductDetails({ product }) {
             </div>
           </div>
         </div>
+
+        {/* Product Feedback Section */}
+        <ProductFeedbackSection product={product} />
       </div>
     </div>
   );
