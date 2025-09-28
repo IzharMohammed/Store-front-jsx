@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import AddToCartButton from "../cart/AddToCartButton";
 import { cookieManager } from "@/utils/authTools";
+import { getCartItems } from "@/actions/cart";
+import { getWishlistItems } from "@/actions/wishlist";
+import CartQuantityControls from "../cart/cart-quantity-controls";
+import { WishlistButton } from "../wishlist/wishlistButton";
 
 export async function ProductDetails({ product }) {
   const formattedPrice = new Intl.NumberFormat("en-US", {
@@ -14,7 +18,17 @@ export async function ProductDetails({ product }) {
   const isInStock = product.stock > 0;
   const isLowStock = product.stock > 0 && product.stock <= 10;
 
-  const isAuthenticated = await cookieManager.isAuthenticated();
+  const [isAuthenticated, cartData, wishlistData] = await Promise.all([
+    cookieManager.isAuthenticated(),
+    getCartItems(),
+    getWishlistItems(),
+  ]);
+
+  // Find if this product is in cart
+  const cartItem = cartData?.data?.find(
+    (item) => item.productId === product.id
+  );
+  const isInCart = !!cartItem;
 
   return (
     <div className="min-h-screen">
@@ -64,6 +78,14 @@ export async function ProductDetails({ product }) {
               <Badge variant="secondary" className="mb-4">
                 {product.category}
               </Badge>
+
+              {/* Wishlist Button */}
+              <WishlistButton
+                isAuthenticated={isAuthenticated}
+                wishlistData={wishlistData}
+                productId={product.id}
+                className="mb-4"
+              />
             </div>
 
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -115,21 +137,41 @@ export async function ProductDetails({ product }) {
 
             <Separator className="my-6" />
 
-            {/* Actions */}
+            {/* Cart Actions */}
             <div className="mt-8 flex flex-col space-y-4">
-              <div className="flex space-x-4">
-                {/* <Button size="lg" className="flex-1" disabled={!isInStock}>
-                  <ShoppingCart className="h-5 w-5 mr-2" />
-                  Add to Cart
-                </Button> */}
-                <AddToCartButton
-                  isAuthenticated={isAuthenticated}
-                  productId={product.id}
-                />
-                {/* <Button size="lg" variant="outline" className="px-8"> */}
-                {/* <WishlistButton productId={product.id} /> */}
-                {/* </Button> */}
-              </div>
+              {isInCart ? (
+                <div className="space-y-4">
+                  {/* Product is in cart - show quantity controls */}
+                  <div className="p-4 border rounded-lg bg-muted/10">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-medium text-muted-foreground">
+                        This item is in your cart
+                      </span>
+                      <Badge variant="outline" className="text-xs">
+                        In Cart
+                      </Badge>
+                    </div>
+                    <CartQuantityControls
+                      cartItem={cartItem}
+                      isAuthenticated={isAuthenticated}
+                      productStock={product.stock}
+                      variant="default"
+                      showRemoveButton={true}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex space-x-4">
+                  {/* Product not in cart - show add to cart button */}
+                  <AddToCartButton
+                    isAuthenticated={isAuthenticated}
+                    productId={product.id}
+                    productName={product.name}
+                    disabled={!isInStock}
+                    className="flex-1 h-12 text-base font-semibold"
+                  />
+                </div>
+              )}
 
               {!isInStock && (
                 <Button variant="outline" size="lg" className="w-full">
@@ -138,17 +180,43 @@ export async function ProductDetails({ product }) {
               )}
             </div>
 
+            {/* Quick Actions */}
+            {isInStock && (
+              <div className="mt-6 flex gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  // onClick={() => {
+                  //   // Add functionality for quick buy
+                  //   console.log("Buy now clicked");
+                  // }}
+                >
+                  Buy Now
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  // onClick={() => {
+                  //   // Add functionality for compare
+                  //   console.log("Compare clicked");
+                  // }}
+                >
+                  Compare
+                </Button>
+              </div>
+            )}
+
             {/* Product Details */}
             <div className="mt-8 border-t pt-8">
               <h3 className="text-lg font-medium mb-4">Product Details</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Product ID:</span>
-                  <span className="font-mono">{product.id}</span>
-                </div>
-                <div className="flex justify-between">
                   <span className="text-muted-foreground">Category:</span>
-                  <span>{product.category}</span>
+                  <Badge variant="outline" className="text-xs">
+                    {product.category}
+                  </Badge>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Status:</span>
@@ -156,6 +224,7 @@ export async function ProductDetails({ product }) {
                     variant={
                       product.status === "ACTIVE" ? "default" : "secondary"
                     }
+                    className="text-xs"
                   >
                     {product.status}
                   </Badge>
@@ -169,6 +238,34 @@ export async function ProductDetails({ product }) {
                       day: "numeric",
                     })}
                   </span>
+                </div>
+                {cartItem && (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">In Cart:</span>
+                    <span className="font-medium text-green-600">
+                      {cartItem.quantity}{" "}
+                      {cartItem.quantity === 1 ? "item" : "items"}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Shipping & Returns Info */}
+            <div className="mt-8 border-t pt-8">
+              <h3 className="text-lg font-medium mb-4">Shipping & Returns</h3>
+              <div className="space-y-3 text-sm text-muted-foreground">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p>Free shipping on orders over $50</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p>30-day return policy</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p>Estimated delivery: 3-5 business days</p>
                 </div>
               </div>
             </div>
