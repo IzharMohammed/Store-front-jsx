@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import AddToCartButton from "./cart/AddToCartButton";
+import AddToCartButton from "../cart/AddToCartButton";
 import { cookieManager } from "@/utils/authTools";
 
 export async function ProductDetails({ product }) {
