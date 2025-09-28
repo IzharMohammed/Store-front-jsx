@@ -1,6 +1,6 @@
 import { HeroBanner } from "@/components/hero-banner";
 import { Products } from "@/components/product/products";
-import { Categories } from "@/components/categories";
+import { Categories } from "@/components/categories/categories";
 import { FeaturedProducts } from "@/components/product/featured-products";
 
 export default function HomePage() {

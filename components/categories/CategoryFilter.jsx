@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export function CategoryFilter() {
   const router = useRouter();
