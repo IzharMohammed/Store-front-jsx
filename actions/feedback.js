@@ -275,3 +275,79 @@ export async function updateFeedback(feedbackId, comment) {
     };
   }
 }
+
+export async function deleteFeedback(feedbackId, productId) {
+  // Check if environment variables are set
+  if (!API_KEY || !BACKEND_URL) {
+    console.error(
+      "Missing environment variables: BACKEND_API_KEY or BACKEND_URL"
+    );
+    return {
+      success: false,
+      message: "Server configuration error. Please try again later.",
+    };
+  }
+
+  const isAuthenticated = await cookieManager.isAuthenticated();
+  if (!isAuthenticated) {
+    return {
+      success: false,
+      reason: "unauthenticated",
+      message: "Please login to delete feedback",
+    };
+  }
+
+  if (!feedbackId) {
+    return {
+      success: false,
+      message: "Feedback ID is required",
+    };
+  }
+
+  try {
+    const userData = await cookieManager.getAuthUser();
+
+    const headers = {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+    };
+
+    // Add custom headers if user is authenticated
+    if (userData) {
+      headers["x-customer-id"] = userData.id;
+    }
+
+    const response = await fetch(`${BACKEND_URL}/v1/feedback/${feedbackId}`, {
+      method: "DELETE",
+      headers,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return {
+        success: false,
+        message: errorData.message || "Failed to delete feedback",
+      };
+    }
+
+    const result = await response.json();
+
+    // Revalidate feedback data
+    revalidateTag("feedback");
+    revalidateTag("product-feedback");
+    if (productId) {
+      revalidateTag(`feedback-${productId}`);
+    }
+
+    return {
+      success: true,
+      message: result.message || "Feedback deleted successfully",
+    };
+  } catch (error) {
+    console.error("Error deleting feedback:", error);
+    return {
+      success: false,
+      message: "Failed to delete feedback",
+    };
+  }
+}
