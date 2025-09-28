@@ -181,7 +181,7 @@ export async function ProductDetails({ product }) {
             </div>
 
             {/* Quick Actions */}
-            {isInStock && (
+            {/* {isInStock && (
               <div className="mt-6 flex gap-3">
                 <Button
                   variant="outline"
@@ -194,19 +194,8 @@ export async function ProductDetails({ product }) {
                 >
                   Buy Now
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex-1"
-                  // onClick={() => {
-                  //   // Add functionality for compare
-                  //   console.log("Compare clicked");
-                  // }}
-                >
-                  Compare
-                </Button>
               </div>
-            )}
+            )} */}
 
             {/* Product Details */}
             <div className="mt-8 border-t pt-8">
