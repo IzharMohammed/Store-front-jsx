@@ -57,3 +57,53 @@ export async function getFeedbackItems() {
     };
   }
 }
+
+export async function getProductFeedback(productId, limit = 10, offset = 0) {
+  // Check if environment variables are set
+  if (!API_KEY || !BACKEND_URL) {
+    console.error(
+      "Missing environment variables: BACKEND_API_KEY or BACKEND_URL"
+    );
+    return {
+      success: false,
+      message: "Server configuration error. Please try again later.",
+    };
+  }
+
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+    };
+
+    const url = new URL(`${BACKEND_URL}/v1/feedback/product/${productId}`);
+    url.searchParams.append("limit", limit.toString());
+    url.searchParams.append("offset", offset.toString());
+
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers,
+      cache: "no-store", // Ensure fresh data on each request
+      next: {
+        tags: ["product-feedback", `feedback-${productId}`],
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.log(`Error ${response.status}: ${errorText}`);
+      return {
+        success: false,
+        message: "Failed to fetch product feedback",
+      };
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching product feedback:", error);
+    return {
+      success: false,
+      message: "Failed to fetch product feedback",
+    };
+  }
+}
