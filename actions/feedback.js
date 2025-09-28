@@ -193,3 +193,85 @@ export async function createFeedback(productId, comment) {
     };
   }
 }
+
+export async function updateFeedback(feedbackId, comment) {
+  // Check if environment variables are set
+  if (!API_KEY || !BACKEND_URL) {
+    console.error(
+      "Missing environment variables: BACKEND_API_KEY or BACKEND_URL"
+    );
+    return {
+      success: false,
+      message: "Server configuration error. Please try again later.",
+    };
+  }
+
+  const isAuthenticated = await cookieManager.isAuthenticated();
+  if (!isAuthenticated) {
+    return {
+      success: false,
+      reason: "unauthenticated",
+      message: "Please login to update feedback",
+    };
+  }
+
+  // Basic validation
+  if (!feedbackId || !comment) {
+    return {
+      success: false,
+      message: "Feedback ID and comment are required",
+    };
+  }
+
+  if (comment.length > 1000) {
+    return {
+      success: false,
+      message: "Comment must be less than 1000 characters",
+    };
+  }
+
+  try {
+    const userData = await cookieManager.getAuthUser();
+
+    const headers = {
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+    };
+
+    // Add custom headers if user is authenticated
+    if (userData) {
+      headers["x-customer-id"] = userData.id;
+    }
+
+    const response = await fetch(`${BACKEND_URL}/v1/feedback/${feedbackId}`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({ comment }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return {
+        success: false,
+        message: errorData.message || "Failed to update feedback",
+      };
+    }
+
+    const result = await response.json();
+
+    // Revalidate feedback data
+    revalidateTag("feedback");
+    revalidateTag("product-feedback");
+
+    return {
+      success: true,
+      message: result.message || "Feedback updated successfully",
+    };
+  } catch (error) {
+    console.error("Error updating feedback:", error);
+    return {
+      success: false,
+      message: "Failed to update feedback",
+    };
+  }
+}
