@@ -45,10 +45,10 @@ export default async function RootLayout({ children }) {
               {cartItems.length > 0 && (
                 <BottomCheckoutNavbar cartItems={cartItems} />
               )}
-              <Toaster />
             </ThemeProvider>{" "}
           </QueryProvider>{" "}
         </OverlayProvider>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

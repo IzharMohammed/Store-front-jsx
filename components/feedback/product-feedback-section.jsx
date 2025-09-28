@@ -81,7 +81,7 @@ export async function ProductFeedbackSection({ product }) {
               Please login to share your feedback about this product
             </p>
             <Button variant="outline" size="sm" asChild>
-              <a href="/auth/login">Login to Add Feedback</a>
+              <a href="/signup">Login to Add Feedback</a>
             </Button>
           </div>
         </div>
