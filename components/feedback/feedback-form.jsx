@@ -4,14 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { createFeedback } from "@/actions/feedback";
 import { toast } from "sonner";
+import { Star } from "lucide-react";
+import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
+import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 
 export function FeedbackForm({ productId, productName }) {
   const [comment, setComment] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!comment.trim()) {
       toast.error("Please enter your feedback");
       return;
@@ -21,11 +26,12 @@ export function FeedbackForm({ productId, productName }) {
       toast.error("Feedback must be less than 1000 characters");
       return;
     }
+    console.log("rating", rating);
 
     startTransition(async () => {
       try {
-        const result = await createFeedback(productId, comment.trim());
-        
+        const result = await createFeedback(productId, comment.trim(), rating);
+
         if (result.success) {
           toast.success(result.message);
           setComment(""); // Clear form
@@ -45,6 +51,32 @@ export function FeedbackForm({ productId, productName }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Star Rating */}
+      <div className="flex items-center space-x-1">
+        {[1, 2, 3, 4, 5].map((star) => {
+          const Icon =
+            star <= (hoverRating || rating) ? StarSolid : StarOutline;
+          return (
+            <Icon
+              key={star}
+              className="h-6 w-6 cursor-pointer transition-colors duration-200 ease-in-out 
+                       text-gray-300 hover:text-yellow-400"
+              onClick={() => setRating(star)}
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(0)}
+              // Override text color if star is selected or hovered
+              style={{
+                color:
+                  star <= (hoverRating || rating)
+                    ? "#facc15" /* Tailwind yellow-400 */
+                    : undefined,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Comment */}
       <div>
         <Textarea
           placeholder={`Share your experience with ${productName}...`}
@@ -60,10 +92,10 @@ export function FeedbackForm({ productId, productName }) {
           </p>
         </div>
       </div>
-      
+
       <div className="flex justify-end">
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           disabled={isPending || !comment.trim()}
           size="sm"
           className="min-w-[100px]"

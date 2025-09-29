@@ -108,7 +108,7 @@ export async function getProductFeedback(productId, limit = 10, offset = 0) {
   }
 }
 
-export async function createFeedback(productId, comment) {
+export async function createFeedback(productId, comment, rating) {
   // Check if environment variables are set
   if (!API_KEY || !BACKEND_URL) {
     console.error(
@@ -160,7 +160,7 @@ export async function createFeedback(productId, comment) {
     const response = await fetch(`${BACKEND_URL}/v1/feedback`, {
       method: "POST",
       headers,
-      body: JSON.stringify({ productId, comment }),
+      body: JSON.stringify({ productId, comment, rating }),
       next: {
         tags: ["feedback"],
       },

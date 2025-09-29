@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { renderStars } from "./render-stars";
 
 export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -42,7 +43,7 @@ export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
     startTransition(async () => {
       try {
         const result = await updateFeedback(feedback.id, editComment.trim());
-        
+
         if (result.success) {
           toast.success(result.message);
           setIsEditing(false);
@@ -60,7 +61,7 @@ export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
     setIsDeleting(true);
     try {
       const result = await deleteFeedback(feedback.id, productId);
-      
+
       if (result.success) {
         toast.success(result.message);
       } else {
@@ -100,18 +101,21 @@ export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
   }
 
   return (
-    <div className={`p-4 border rounded-lg ${isOwnFeedback ? 'bg-blue-50 border-blue-200' : 'bg-gray-50'}`}>
+    <div
+      className={`p-4 border rounded-lg ${
+        isOwnFeedback ? "bg-blue-50 border-blue-200" : "bg-gray-50"
+      }`}
+    >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-            {feedback.customer?.name ? 
-              feedback.customer.name.charAt(0).toUpperCase() : 
-              feedback.customer?.email?.charAt(0).toUpperCase() || 'A'
-            }
+            {feedback.customer?.name
+              ? feedback.customer.name.charAt(0).toUpperCase()
+              : feedback.customer?.email?.charAt(0).toUpperCase() || "A"}
           </div>
           <div>
             <p className="font-medium text-sm  text-black">
-              {feedback.customer?.name || 'Anonymous Customer'}
+              {feedback.customer?.name || "Anonymous Customer"}
             </p>
             <p className="text-xs text-muted-foreground">
               {formatDate(feedback.createdAt)}
@@ -119,9 +123,10 @@ export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
                 <span className="ml-1">(edited)</span>
               )}
             </p>
+            {feedback.rating && renderStars(feedback.rating)}
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           {isOwnFeedback && (
             <Badge variant="outline" className="text-xs">
@@ -168,7 +173,7 @@ export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
           <p className="text-sm text-gray-700 mb-3 leading-relaxed">
             {feedback.comment}
           </p>
-          
+
           {isOwnFeedback && (
             <div className="flex justify-end space-x-2">
               <Button
@@ -179,7 +184,7 @@ export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
               >
                 Edit
               </Button>
-              
+
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
@@ -194,7 +199,8 @@ export function FeedbackItem({ feedback, isOwnFeedback, productId }) {
                   <AlertDialogHeader>
                     <AlertDialogTitle>Delete Feedback</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete your feedback? This action cannot be undone.
+                      Are you sure you want to delete your feedback? This action
+                      cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
