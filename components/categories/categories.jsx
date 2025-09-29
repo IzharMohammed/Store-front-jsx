@@ -12,11 +12,6 @@ export async function Categories() {
 
   // Add "All Products" as the first category
   const allCategories = [
-    {
-      name: "all",
-      count: categories.reduce((sum, cat) => sum + cat.count, 0),
-      displayName: "All Products",
-    },
     ...categories.map((cat) => ({ ...cat, displayName: cat.name })),
   ];
 
