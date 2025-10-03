@@ -9,6 +9,7 @@ import { getWishlistItems } from "@/actions/wishlist";
 import CartQuantityControls from "../cart/cart-quantity-controls";
 import { WishlistButton } from "../wishlist/wishlistButton";
 import { ProductFeedbackSection } from "@/components/feedback/product-feedback-section";
+import ProductImageGallery from "./product-image-gallery";
 
 export async function ProductDetails({ product }) {
   const formattedPrice = new Intl.NumberFormat("en-US", {
@@ -31,6 +32,8 @@ export async function ProductDetails({ product }) {
   );
   const isInCart = !!cartItem;
 
+  const images = Array.isArray(product.image) ? product.image : [product.image];
+
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -51,27 +54,12 @@ export async function ProductDetails({ product }) {
         </nav>
 
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
-          {/* Product Image */}
-          <div className="flex flex-col-reverse">
-            <div className="aspect-w-1 aspect-h-1 w-full">
-              <div className="relative h-96 w-full overflow-hidden rounded-lg border">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="h-full w-full object-cover object-center"
-                  priority
-                />
-                {!isInStock && (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <Badge variant="destructive" className="text-lg px-4 py-2">
-                      Out of Stock
-                    </Badge>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          {/* Product Image Gallery */}
+          <ProductImageGallery
+            images={images}
+            productName={product.name}
+            isInStock={isInStock}
+          />
 
           {/* Product Info */}
           <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
