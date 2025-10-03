@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function BannerCarousel({ banners }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -34,12 +34,12 @@ export function BannerCarousel({ banners }) {
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') prevSlide();
-      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === "ArrowLeft") prevSlide();
+      if (e.key === "ArrowRight") nextSlide();
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [nextSlide, prevSlide]);
 
   if (!banners || banners.length === 0) return null;
@@ -47,9 +47,10 @@ export function BannerCarousel({ banners }) {
   const currentBanner = banners[currentIndex];
 
   return (
-    <div className="relative w-full h-[300px] md:h-[370px] lg:h-[460px] overflow-hidden rounded-lg shadow-xl group">
+    // <div className="relative w-full h-[300px] md:h-[370px] lg:h-[460px] overflow-hidden rounded-lg shadow-xl group">
+    <div className="relative w-full h-[400px] md:h-[500px] lg:h-[890px] overflow-hidden rounded-lg shadow-xl group">
       {/* Main Banner Image */}
-      <div className="relative w-full h-full">
+      <div className="relative w-full  h-full">
         <Image
           src={currentBanner.image}
           alt={currentBanner.title || `Banner ${currentIndex + 1}`}
@@ -58,10 +59,10 @@ export function BannerCarousel({ banners }) {
           priority={currentIndex === 0}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
         />
-        
+
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
-        
+
         {/* Banner Title */}
         {/* {currentBanner.title && (
           <div className="absolute bottom-8 left-8 right-8 md:bottom-12 md:left-12 md:right-12">
@@ -99,9 +100,9 @@ export function BannerCarousel({ banners }) {
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/20 ${
-              index === currentIndex 
-                ? 'bg-white shadow-lg scale-125' 
-                : 'bg-white/50 hover:bg-white/75'
+              index === currentIndex
+                ? "bg-white shadow-lg scale-125"
+                : "bg-white/50 hover:bg-white/75"
             }`}
             aria-label={`Go to banner ${index + 1}`}
           />
@@ -115,7 +116,7 @@ export function BannerCarousel({ banners }) {
 
       {/* Progress Bar */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-black/20">
-        <div 
+        <div
           className="h-full bg-white transition-all duration-5000 ease-linear"
           style={{ width: `${((currentIndex + 1) / banners.length) * 100}%` }}
         />

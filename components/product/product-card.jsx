@@ -23,7 +23,7 @@ export async function ProductCard({ product, cartItem = null }) {
           <Link href={`/products/${product.id}`}>
             <div className="aspect-square relative overflow-hidden bg-gray-50 dark:bg-muted">
               <Image
-                src={product.image || "/placeholder.svg?height=240&width=240"}
+                src={product.image[0] || "/placeholder.svg?height=240&width=240"}
                 alt={product.name}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"

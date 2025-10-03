@@ -8,14 +8,15 @@ import { ProductCard } from "./product-card";
 export async function Products() {
   const [productsResponse, cartResponse] = await Promise.all([
     getProducts(),
-    getCartItems()
+    getCartItems(),
   ]);
-  
+
   console.log("products response", productsResponse);
   console.log("cart response", cartResponse);
-  
+
   const products = productsResponse?.data || [];
   const cartItems = cartResponse?.data || [];
+  console.log("products", products);
 
   return (
     <section className="py-20 px-4">
@@ -42,14 +43,13 @@ export async function Products() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
           {products.map((product) => {
             // Find cart item for this product
-            const cartItem = cartItems.find(item => item.productId === product.id);
-            
+            const cartItem = cartItems.find(
+              (item) => item.productId === product.id
+            );
+
             return (
               <div key={product.id}>
-                <ProductCard 
-                  product={product} 
-                  cartItem={cartItem}
-                />
+                <ProductCard product={product} cartItem={cartItem} />
               </div>
             );
           })}
