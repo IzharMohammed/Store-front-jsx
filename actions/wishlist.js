@@ -1,6 +1,7 @@
 "use server";
 
 import { cookieManager } from "@/utils/authTools";
+import { GUEST_TOKEN_KEY } from "@/utils/constants";
 import { revalidateTag } from "next/cache";
 
 const API_KEY = process.env.BACKEND_API_KEY || "";
@@ -16,17 +17,7 @@ export async function getWishlistItems() {
   }
 
   try {
-    const userData = await cookieManager.getAuthUser();
-
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/wishlist`, {
       method: "GET",
@@ -37,11 +28,18 @@ export async function getWishlistItems() {
       },
     });
 
+    // await cookieManager.handleApiResponse(response);
+
     if (!response.ok) {
       throw new Error("Failed to fetch wishlist items");
     }
 
-    return response.json();
+    const data = await response.json();
+
+    return {
+      ...data,
+      guesttoken: response.headers.get(GUEST_TOKEN_KEY),
+    };
   } catch (error) {
     console.error("Error fetching wishlist:", error);
     throw error;
@@ -69,17 +67,7 @@ export async function addToWishlist(productId) {
   }
 
   try {
-    const userData = await cookieManager.getAuthUser();
-
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/wishlist`, {
       method: "POST",
@@ -89,6 +77,8 @@ export async function addToWishlist(productId) {
         tags: ["wishlist"],
       },
     });
+
+    // await cookieManager.handleApiResponse(response);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -142,17 +132,7 @@ export async function removeFromWishlist(itemId) {
   }
 
   try {
-    const userData = await cookieManager.getAuthUser();
-
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/wishlist/${itemId}`, {
       method: "DELETE",

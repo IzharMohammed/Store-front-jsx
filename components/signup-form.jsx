@@ -46,14 +46,30 @@ export function SignupForm({ onSuccess, showSignupLink = true }) {
   };
 
   // Handle success case when state changes
+  // useEffect(() => {
+  //   if (state.success) {
+  //     onSuccess?.();
+  //     // Auto redirect after 1 second
+  //     setTimeout(() => {
+  //       redirectToLogin();
+  //     }, 1000);
+  //   }
+  // }, [state.success, onSuccess]);
+
   useEffect(() => {
+    console.log("running this useEffect outside");
+
     if (state.success) {
       onSuccess?.();
-      // Auto redirect after 2 seconds
+      console.log("running this useEffect inside");
+      // Auto redirect after 1 second
       setTimeout(() => {
-        redirectToLogin();
-        
-      }, 2000);
+        const next =
+          typeof window !== "undefined"
+            ? new URLSearchParams(window.location.search).get("next")
+            : null;
+        redirectToLogin(next);
+      }, 1000);
     }
   }, [state.success, onSuccess]);
 

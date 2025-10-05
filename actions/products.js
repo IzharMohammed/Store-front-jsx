@@ -1,22 +1,15 @@
 "use server";
 
 import { cookieManager } from "@/utils/authTools";
+import { GUEST_TOKEN_KEY } from "@/utils/constants";
 
 const API_KEY = process.env.BACKEND_API_KEY || "";
 const BACKEND_URL = process.env.BACKEND_URL || "";
 
 export async function getProducts(filters = {}) {
   try {
-    const userData = await cookieManager.getAuthUser();
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    // Build headers with auth or guest token
+    const headers = await cookieManager.buildApiHeaders();
 
     // Build query string from filters
     const queryParams = new URLSearchParams();
@@ -42,6 +35,11 @@ export async function getProducts(filters = {}) {
       },
     });
 
+    
+
+    // Store guest token if returned
+    // await cookieManager.handleApiResponse(response);
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       return {
@@ -52,7 +50,12 @@ export async function getProducts(filters = {}) {
       };
     }
 
-    return response.json();
+    const data = await response.json();
+
+    return {
+      ...data,
+      guestToken: response.headers.get(GUEST_TOKEN_KEY),
+    };
   } catch (error) {
     console.error("Error fetching products:", error);
     return {
@@ -65,15 +68,7 @@ export async function getProducts(filters = {}) {
 // Get categories for filter dropdown
 export async function getCategories() {
   try {
-    const userData = await cookieManager.getAuthUser();
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/products?limit=1`, {
       method: "GET",
@@ -84,6 +79,8 @@ export async function getCategories() {
         revalidate: 3600, // Cache for 1 hour
       },
     });
+
+    // await cookieManager.handleApiResponse(response);
 
     if (!response.ok) {
       return {

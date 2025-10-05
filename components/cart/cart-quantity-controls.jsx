@@ -8,7 +8,6 @@ import { useOverlay } from "@/components/OverlayProvider";
 
 export default function CartQuantityControls({
   cartItem,
-  isAuthenticated,
   productStock,
   className = "",
   showRemoveButton = true,
@@ -20,10 +19,10 @@ export default function CartQuantityControls({
   const { openOverlay } = useOverlay();
 
   const handleQuantityUpdate = async (newQuantity) => {
-    if (!isAuthenticated) {
-      openOverlay("signin");
-      return;
-    }
+    // if (!isAuthenticated) {
+    //   openOverlay("signin");
+    //   return;
+    // }
 
     if (newQuantity === quantity || newQuantity < 1) return;
 
@@ -45,10 +44,10 @@ export default function CartQuantityControls({
   };
 
   const handleRemove = async () => {
-    if (!isAuthenticated) {
-      openOverlay("signin");
-      return;
-    }
+    // if (!isAuthenticated) {
+    //   openOverlay("signin");
+    //   return;
+    // }
 
     setIsRemoving(true);
     try {

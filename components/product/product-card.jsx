@@ -6,12 +6,12 @@ import { Star, Zap } from "lucide-react";
 import { WishlistButton } from "../wishlist/wishlistButton";
 import AddToCartButton from "../cart/AddToCartButton";
 import CartQuantityControls from "../cart/cart-quantity-controls";
-import { getWishlistItems } from "@/actions/wishlist";
+import { getWishlistItems } from "@/actions/wishlist"; // Use original function
 import { cookieManager } from "@/utils/authTools";
 
 export async function ProductCard({ product, cartItem = null }) {
-  const wishlistData = await getWishlistItems();
-  const isAuthenticated = await cookieManager.isAuthenticated();
+  const wishlistData = await getWishlistItems(); 
+  // const isAuthenticated = await cookieManager.isAuthenticated();
 
   const isInCart = !!cartItem;
 
@@ -23,7 +23,9 @@ export async function ProductCard({ product, cartItem = null }) {
           <Link href={`/products/${product.id}`}>
             <div className="aspect-square relative overflow-hidden bg-gray-50 dark:bg-muted">
               <Image
-                src={product.image[0] || "/placeholder.svg?height=240&width=240"}
+                src={
+                  product.image[0] || "/placeholder.svg?height=240&width=240"
+                }
                 alt={product.name}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -46,7 +48,6 @@ export async function ProductCard({ product, cartItem = null }) {
           {/* Wishlist Button */}
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <WishlistButton
-              isAuthenticated={isAuthenticated}
               wishlistData={wishlistData}
               productId={product.id}
               variant="ghost"
@@ -106,13 +107,12 @@ export async function ProductCard({ product, cartItem = null }) {
           {isInCart ? (
             <CartQuantityControls
               cartItem={cartItem}
-              isAuthenticated={isAuthenticated}
               productStock={product.stock}
               className="w-full"
             />
           ) : (
             <AddToCartButton
-              isAuthenticated={isAuthenticated}
+              // isAuthenticated={isAuthenticated}
               productId={product.id}
               productName={product.name}
               className="w-full bg-black hover:bg-gray-800 text-white dark:bg-white dark:hover:bg-gray-100 dark:text-black border-0 transition-colors duration-200 h-9 text-sm font-medium"

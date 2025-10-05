@@ -32,7 +32,6 @@ export async function getBanners() {
     //   headers["x-customer-id"] = userData.id;
     // }
 
-    console.log("userData",userData);
     
     const response = await fetch(`${BACKEND_URL}/v1/banners`, {
       method: "GET",
@@ -42,8 +41,6 @@ export async function getBanners() {
         tags: ["banners"],
       },
     });
-
-    console.log("response for banners", response);
 
     if (!response.ok) {
       const errorText = await response.text();

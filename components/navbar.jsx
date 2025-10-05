@@ -117,9 +117,9 @@ import { StickyNavbar } from "./sticky-navbar";
 export async function Navbar() {
   const user = await cookieManager.getAuthUser();
   const isAuthenticated = await cookieManager.isAuthenticated();
-  const cartItems = await getCartItems();
-  const wli = await getWishlistItems();
-  const orders = await getOrders();
+  const cartItems = await getCartItems(); // Use original function
+  const wli = await getWishlistItems(); // Use original function
+  const orders = await getOrders(); // Use original function
 
   return (
     <StickyNavbar>

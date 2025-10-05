@@ -10,16 +10,18 @@ import {
 import { Sparkles, Zap } from "lucide-react";
 import { SignupForm } from "@/components/signup-form";
 
-async function checkAuthentication() {
+async function checkAuthentication(next) {
   const isAuthenticated = await cookieManager.isAuthenticated();
+  console.log("checkAuthentication nextt", next);
+
   if (isAuthenticated) {
-    redirect("/");
+    redirect(next || "/");
   }
 }
 
-export default async function SignupPage() {
+export default async function SignupPage({ searchParams }) {
   // Check if user is already authenticated
-  await checkAuthentication();
+  await checkAuthentication(searchParams?.next);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 relative overflow-hidden">

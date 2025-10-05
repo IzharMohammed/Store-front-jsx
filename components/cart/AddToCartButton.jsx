@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { useOverlay } from "@/components/OverlayProvider";
 
 export default function AddToCartButton({
-  isAuthenticated,
   productId,
   productName = "Product",
   quantity = 1,
@@ -33,11 +32,11 @@ export default function AddToCartButton({
   };
 
   const handleAddToCart = async () => {
-    if (isAuthenticated) {
+    // if (isAuthenticated) {
       handleCartAction();
-    } else {
-      openOverlay("signin", async () => handleCartAction());
-    }
+    // } else {
+      // openOverlay("signin", async () => handleCartAction());
+    // }
   };
 
   return (

@@ -8,15 +8,12 @@ import { ProductCard } from "./product-card";
 export async function Products() {
   const [productsResponse, cartResponse] = await Promise.all([
     getProducts(),
-    getCartItems(),
+    getCartItems(), 
   ]);
 
-  console.log("products response", productsResponse);
-  console.log("cart response", cartResponse);
 
   const products = productsResponse?.data || [];
   const cartItems = cartResponse?.data || [];
-  console.log("products", products);
 
   return (
     <section className="py-20 px-4">

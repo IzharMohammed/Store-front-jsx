@@ -10,16 +10,18 @@ import { SigninForm } from "@/components/signin-form";
 import { cookieManager } from "@/utils/authTools";
 import { redirect } from "next/navigation";
 
-async function checkAuthentication() {
+async function checkAuthentication(next) {
   const isAuthenticated = await cookieManager.isAuthenticated();
+  console.log("checkAuthentication next", next);
+
   if (isAuthenticated) {
-    redirect("/");
+    redirect(next || "/");
   }
 }
 
-export default async function SigninPage() {
+export default async function SigninPage({ searchParams }) {
   // Check if user is already authenticated
-  await checkAuthentication();
+  await checkAuthentication(searchParams?.next);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 relative overflow-hidden">

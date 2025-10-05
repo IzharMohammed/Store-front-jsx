@@ -26,7 +26,6 @@ export function FeedbackForm({ productId, productName }) {
       toast.error("Feedback must be less than 1000 characters");
       return;
     }
-    console.log("rating", rating);
 
     startTransition(async () => {
       try {

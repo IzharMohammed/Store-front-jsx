@@ -9,6 +9,8 @@ const BACKEND_URL = process.env.BACKEND_URL || "";
 export async function signin(prevState, formData) {
   const email = formData.get("email");
   const password = formData.get("password");
+  const nextParam = formData.get("next") || "/";
+  console.log("nextParam", nextParam);
 
   // Basic validation
   if (!email || !password) {
@@ -68,12 +70,32 @@ export async function signin(prevState, formData) {
     // Set authentication cookies
     await cookieManager.setAuthenticatedUser(data);
 
-    return {
-      success: true,
-      error: null,
-      message: data.message,
-      user: data.user,
-    };
+    // Redirect to checkout or dashboard
+    // redirect("/checkout/authenticated");
+
+    // redirect(redirectTo);
+    // const next = prevState?.next || "/";
+    // console.log("next from signin action", next);
+
+    // redirect(next);
+
+    const isSafeRelative =
+      typeof nextParam === "string" &&
+      nextParam.startsWith("/") &&
+      !nextParam.startsWith("//");
+    const target = isSafeRelative ? nextParam : "/";
+
+    console.log("target", target);
+
+    redirect(target);
+
+    // return {
+    //   success: true,
+    //   error: null,
+    //   message: data.message,
+    //   user: data.user,
+    //   redirectTo,
+    // };
   } catch (error) {
     console.error("Signin error:", error);
     return {

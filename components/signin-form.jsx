@@ -46,19 +46,45 @@ export function SigninForm({ onSuccess, showSignupLink = true }) {
     }));
   };
 
-  // Handle success case when state changes
-  useEffect(() => {
-    if (state.success) {
-      onSuccess?.();
-      // Auto redirect after 2 seconds
-      setTimeout(() => {
-        redireactToLandingPage();
-      }, 2000);
-    }
-  }, [state.success, onSuccess]);
+  // useEffect(() => {
+  //   console.log("STATE CHANGED:", JSON.stringify(state));
+  // }, [state]);
+
+  // // Handle success case when state changes
+  // useEffect(() => {
+  //   if (state.success) {
+  //     console.log("target url here");
+
+  //     const targetUrl = state.redirectTo || redirectTo;
+  //     console.log("Redirecting to:", targetUrl);
+  //     // Auto redirect after 1 seconds
+  //     setTimeout(() => {
+  //       // redireactToLandingPage();
+  //       window.location.href = targetUrl;
+  //     }, 1000);
+  //   }
+  // }, [state.success, onSuccess, redirectTo, state.redirectTo]);
+
+  // console.log("CURRENT STATE:", state); // This should show state changes
+
+  // useEffect(() => {
+  //   if (state?.success && state?.redirectTo) {
+  //     console.log("Redirecting to:", state.redirectTo);
+  //     window.location.href = state.redirectTo;
+  //   }
+  // }, [state]);
 
   return (
     <motion.form action={formAction} className="space-y-6">
+      <input
+        type="hidden"
+        name="next"
+        value={
+          typeof window !== "undefined"
+            ? new URLSearchParams(window.location.search).get("next") || "/"
+            : "/"
+        }
+      />
       {/* Email Field */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -206,7 +232,7 @@ export function SigninForm({ onSuccess, showSignupLink = true }) {
       </motion.div>
 
       {/* Success Message */}
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {state.success && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -220,10 +246,10 @@ export function SigninForm({ onSuccess, showSignupLink = true }) {
             </span>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
       {/* Error Message */}
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {state.error && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -239,7 +265,7 @@ export function SigninForm({ onSuccess, showSignupLink = true }) {
             </span>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
       {/* Signup Link */}
       <div className="text-center pt-4">
@@ -260,7 +286,12 @@ export function SigninForm({ onSuccess, showSignupLink = true }) {
             whileTap={{ scale: 0.95 }}
             type="button"
             className="text-primary hover:text-primary/80 font-medium transition-colors mt-4"
-            onClick={() => redirectToSignup()}
+            // onClick={() => redirectToSignup()}
+            onClick={() => {
+              const next =
+                new URLSearchParams(window.location.search).get("next") || "/";
+              window.location.href = `/signup?next=${encodeURIComponent(next)}`;
+            }}
             disabled={isPending}
           >
             Create an account →

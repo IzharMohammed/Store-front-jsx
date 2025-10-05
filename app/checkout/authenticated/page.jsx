@@ -17,6 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCartItems } from "@/actions/cart";
 import { CheckoutForm } from "@/components/order/checkout-form";
+import { cookieManager } from "@/utils/authTools";
 
 // Empty Cart Component
 const EmptyCart = () => {
@@ -174,6 +175,8 @@ const OrderSummary = ({ items }) => {
 // Main Checkout Page
 export default async function CheckoutPage() {
   let cartData;
+  const ok = await cookieManager.isAuthenticated();
+  if (!ok) redirect("/signup?next=/checkout/authenticated");
 
   try {
     cartData = await getCartItems();

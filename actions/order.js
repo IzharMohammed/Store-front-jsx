@@ -1,6 +1,7 @@
 "use server";
 
 import { cookieManager } from "@/utils/authTools";
+import { GUEST_TOKEN_KEY } from "@/utils/constants";
 import { revalidateTag } from "next/cache";
 
 const API_KEY = process.env.BACKEND_API_KEY || "";
@@ -16,17 +17,7 @@ export async function getOrders() {
   }
 
   try {
-    const userData = await cookieManager.getAuthUser();
-
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/order`, {
       method: "GET",
@@ -37,11 +28,19 @@ export async function getOrders() {
       },
     });
 
+    // await cookieManager.handleApiResponse(response);
+
     if (!response.ok) {
       throw new Error("Failed to fetch orders");
     }
 
-    return response.json();
+    // return response.json();
+    const data = await response.json();
+
+    return {
+      ...data,
+      guesttoken: response.headers.get(GUEST_TOKEN_KEY),
+    };
   } catch (error) {
     console.error("Error fetching orders:", error);
     throw error;

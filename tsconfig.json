@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/feedback/render-stars.jsx", "components/product/product-image-gallery.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/feedback/render-stars.jsx", "components/product/product-image-gallery.jsx", "middleware.js"],
   "exclude": ["node_modules"]
 }

@@ -9,7 +9,6 @@ import { addToWishlist, removeFromWishlist } from "@/actions/wishlist";
 import { useOverlay } from "../OverlayProvider";
 
 export const WishlistButton = ({
-  isAuthenticated,
   wishlistData,
   productId,
   variant = "outline",
@@ -49,11 +48,11 @@ export const WishlistButton = ({
 
   // Toggle wishlist status
   const handleToggleWishlist = async () => {
-    if (isAuthenticated) {
+    // if (isAuthenticated) {
       addToWishlistAction();
-    } else {
-      openOverlay("signin", async () => addToWishlistAction());
-    }
+    // } else {
+      // openOverlay("signin", async () => addToWishlistAction());
+    // }
   };
 
   return (

@@ -1,5 +1,6 @@
 "use server";
 import { cookieManager } from "@/utils/authTools";
+import { GUEST_TOKEN_KEY } from "@/utils/constants";
 import { revalidateTag } from "next/cache";
 
 const API_KEY = process.env.BACKEND_API_KEY || "";
@@ -14,17 +15,7 @@ export async function getCartItems() {
   }
 
   try {
-    const userData = await cookieManager.getAuthUser();
-
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/cart`, {
       method: "GET",
@@ -35,12 +26,20 @@ export async function getCartItems() {
       },
     });
 
+    // Store guest token from response
+    // await cookieManager.handleApiResponse(response);
+
     if (!response.ok) {
       const errorText = await response.text();
       console.log(`Error ${response.status}: ${errorText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+
+    return {
+      ...data,
+      guestToken: response.headers.get(GUEST_TOKEN_KEY),
+    };
   } catch (error) {
     console.error("Error fetching cart:", error);
     throw error;
@@ -59,14 +58,14 @@ export async function addToCart(productId, quantity) {
     };
   }
 
-  const isAuthenticated = await cookieManager.isAuthenticated();
-  if (!isAuthenticated) {
-    return {
-      success: false,
-      reason: "unauthenticated",
-      message: "Please login to add items to your cart",
-    };
-  }
+  // const isAuthenticated = await cookieManager.isAuthenticated();
+  // if (!isAuthenticated) {
+  //   return {
+  //     success: false,
+  //     reason: "unauthenticated",
+  //     message: "Please login to add items to your cart",
+  //   };
+  // }
 
   // Basic validation
   if (!productId || !quantity) {
@@ -77,17 +76,7 @@ export async function addToCart(productId, quantity) {
   }
 
   try {
-    const userData = await cookieManager.getAuthUser();
-
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/cart`, {
       method: "POST",
@@ -97,6 +86,8 @@ export async function addToCart(productId, quantity) {
         tags: ["cart"],
       },
     });
+
+    // await cookieManager.handleApiResponse(response);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -116,16 +107,7 @@ export async function addToCart(productId, quantity) {
 
 export async function removeFromCart(cartId) {
   try {
-    const userData = await cookieManager.getAuthUser();
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/cart`, {
       method: "DELETE",
@@ -147,16 +129,7 @@ export async function removeFromCart(cartId) {
 
 export async function updateCartQuantity(cartId, newQuantity) {
   try {
-    const userData = await cookieManager.getAuthUser();
-    const headers = {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY,
-    };
-
-    // Add custom headers if user is authenticated
-    if (userData) {
-      headers["x-customer-id"] = userData.id;
-    }
+    const headers = await cookieManager.buildApiHeaders();
 
     const response = await fetch(`${BACKEND_URL}/v1/cart/update`, {
       method: "PATCH",
