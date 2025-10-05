@@ -123,7 +123,7 @@ export function ProductFilters({
   const FilterContent = () => (
     <div className="space-y-6">
       {/* Search */}
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         <Label
           htmlFor="search"
           className="text-sm font-medium flex items-center gap-2"
@@ -140,7 +140,7 @@ export function ProductFilters({
           }
           className="h-9"
         />
-      </div>
+      </div> */}
 
       {/* Category Filter */}
       <Collapsible

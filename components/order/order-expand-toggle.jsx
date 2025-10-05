@@ -4,18 +4,12 @@ import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function OrderExpandToggle({ orderId }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpansion = () => {
-    setIsExpanded(!isExpanded);
-  };
-
+export function OrderExpandToggle({ orderId, isExpanded, onToggle }) {
   return (
     <Button
       variant="ghost"
       size="sm"
-      onClick={toggleExpansion}
+      onClick={onToggle}
       className="p-2 rounded-lg hover:bg-muted transition-colors"
       aria-label={
         isExpanded ? "Collapse order details" : "Expand order details"
