@@ -5,8 +5,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import QueryProvider from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { OverlayProvider } from "../components/OverlayProvider";
+import { BottomCheckoutNavbar } from "../components/bottom-checkout-navbar";
 // import { ClientLayoutWrapper } from "../components/client-layout-wrapper";
 // import { initializeGuestToken } from "../actions/init-guest-token";
+import { getCartItems } from "../actions/cart";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +27,8 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   // await initializeGuestToken();
+  const cartData = await getCartItems();
+  const cartItems = cartData?.data || [];
   return (
     <html lang="en">
       <body
@@ -40,6 +44,9 @@ export default async function RootLayout({ children }) {
             >
               <Navbar />
               {children}
+              {cartItems.length > 0 && (
+                <BottomCheckoutNavbar cartItems={cartItems} />
+              )}
               {/* <ClientLayoutWrapper /> */}
             </ThemeProvider>
           </QueryProvider>
