@@ -94,7 +94,7 @@ const WishlistCard = async ({ item }) => {
           <div className="relative">
             <div className="w-full sm:w-24 h-48 sm:h-24 relative rounded-lg overflow-hidden bg-gradient-to-br from-muted/20 to-muted/40">
               <Image
-                src={item.product.image || "/placeholder.jpg"}
+                src={item.product.image[0] || "/placeholder.jpg"}
                 alt={item.product.name}
                 fill
                 className="object-cover transition-transform duration-300 hover:scale-105"

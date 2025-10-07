@@ -15,6 +15,8 @@ export async function Categories() {
     ...categories.map((cat) => ({ ...cat, displayName: cat.name })),
   ];
 
+  console.log("allCategories", allCategories);
+
   return (
     <section className="py-16 px-4">
       <div className="max-w-7xl mx-auto">

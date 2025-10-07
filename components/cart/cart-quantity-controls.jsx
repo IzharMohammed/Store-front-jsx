@@ -13,6 +13,7 @@ export default function CartQuantityControls({
   showRemoveButton = true,
   variant = "default", // "default" | "compact"
 }) {
+
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);

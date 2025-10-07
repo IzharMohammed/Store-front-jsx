@@ -95,7 +95,7 @@ export default async function ProductsPage({ searchParams }) {
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Desktop Sidebar Filters */}
-          <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0">
+          {/* <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0">
             <div className="sticky top-6">
               <Suspense fallback={<FiltersLoading />}>
                 <ProductFilters
@@ -105,7 +105,7 @@ export default async function ProductsPage({ searchParams }) {
                 />
               </Suspense>
             </div>
-          </aside>
+          </aside> */}
 
           {/* Main Content */}
           <main className="flex-1 min-w-0">

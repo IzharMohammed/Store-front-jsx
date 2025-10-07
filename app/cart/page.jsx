@@ -22,7 +22,6 @@ export default async function CartPage() {
   const cartData = await getCartItems();
   const isAuthenticated = await cookieManager.isAuthenticated();
   const guestToken = await cookieManager.getGuestToken();
-  console.log("cartData", cartData);
 
   const cartItems = cartData?.data || [];
 
@@ -37,7 +36,6 @@ export default async function CartPage() {
   if (cartItems.length === 0) {
     return <EmptyCart />;
   }
-  console.log("cartItems", cartItems);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
