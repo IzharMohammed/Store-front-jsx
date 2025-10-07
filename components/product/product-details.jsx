@@ -268,6 +268,12 @@ import CartQuantityControls from "../cart/cart-quantity-controls";
 import { WishlistButton } from "../wishlist/wishlistButton";
 import { ProductFeedbackSection } from "@/components/feedback/product-feedback-section";
 import ProductImageGallery from "./product-image-gallery";
+import { Fraunces } from "next/font/google";
+
+const frauncesFont = Fraunces({
+  subsets: ["latin"],
+  weight: "200",
+});
 
 export async function ProductDetails({ product }) {
   const formatCurrency = (v) =>
@@ -351,7 +357,9 @@ export async function ProductDetails({ product }) {
               />
             </div>
 
-            <h1 className=" font-light tracking-tight sm:text-4xl">
+            <h1
+              className={`font-light tracking-tight sm:text-4xl ${frauncesFont.className} `}
+            >
               {product.name}
             </h1>
 
@@ -472,12 +480,14 @@ export async function ProductDetails({ product }) {
               )}
             </div>
 
-            {/* Accordions (no shadcn) */}
+            {/* Accordions */}
             <div className="mt-10">
               {/* Description */}
               <details className="group border-t py-3" open>
                 <summary className="flex cursor-pointer items-center justify-between font-medium">
-                  <span>Description</span>
+                  <span className={`${frauncesFont.className}`}>
+                    Description
+                  </span>
                   <span className="ml-2 text-xl group-open:hidden">+</span>
                   <span className="ml-2 text-xl hidden group-open:inline">
                     −
@@ -494,7 +504,9 @@ export async function ProductDetails({ product }) {
               {/* Product Details (dummy data) */}
               <details className="group border-t py-3">
                 <summary className="flex cursor-pointer items-center justify-between font-medium">
-                  <span>Product Details</span>
+                  <span className={`${frauncesFont.className}`}>
+                    Product Details
+                  </span>
                   <span className="ml-2 text-xl group-open:hidden">+</span>
                   <span className="ml-2 text-xl hidden group-open:inline">
                     −
@@ -549,7 +561,9 @@ export async function ProductDetails({ product }) {
               {/* Size Chart (dummy) */}
               <details className="group border-t py-3">
                 <summary className="flex cursor-pointer items-center justify-between font-medium">
-                  <span>Size Chart</span>
+                  <span className={`${frauncesFont.className}`}>
+                    Size Chart
+                  </span>
                   <span className="ml-2 text-xl group-open:hidden">+</span>
                   <span className="ml-2 text-xl hidden group-open:inline">
                     −
@@ -566,7 +580,9 @@ export async function ProductDetails({ product }) {
               {/* Shipping Info (dummy incl. India) */}
               <details className="group border-t py-3">
                 <summary className="flex cursor-pointer items-center justify-between font-medium">
-                  <span>Shipping Info</span>
+                  <span className={`${frauncesFont.className}`}>
+                    Shipping Info
+                  </span>
                   <span className="ml-2 text-xl group-open:hidden">+</span>
                   <span className="ml-2 text-xl hidden group-open:inline">
                     −
@@ -590,7 +606,9 @@ export async function ProductDetails({ product }) {
               {/* Why Liberté */}
               <details className="group border-t py-3">
                 <summary className="flex cursor-pointer items-center justify-between font-medium">
-                  <span>Why Liberté</span>
+                  <span className={`${frauncesFont.className}`}>
+                    Why Liberté
+                  </span>
                   <span className="ml-2 text-xl group-open:hidden">+</span>
                   <span className="ml-2 text-xl hidden group-open:inline">
                     −
