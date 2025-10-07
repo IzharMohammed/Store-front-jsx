@@ -292,13 +292,16 @@ export async function ProductDetails({ product }) {
   const isInCart = !!cartItem;
 
   const images = Array.isArray(product.image) ? product.image : [product.image];
+  console.log("product", typeof product.discount);
 
   // Price logic: show strike-through original and discounted price when provided
   const originalPrice = Number(product.price ?? 0);
-  const discountPrice =
-    typeof product.discountPrice === "number"
-      ? Number(product.discountPrice)
-      : null;
+
+  const discount =
+    typeof product.discount === "number" ? Number(product.discount) : null;
+
+  const discountPrice = originalPrice - (originalPrice * discount) / 100;
+
   const hasDiscount =
     typeof discountPrice === "number" &&
     discountPrice > 0 &&
