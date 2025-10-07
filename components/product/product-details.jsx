@@ -351,7 +351,7 @@ export async function ProductDetails({ product }) {
               />
             </div>
 
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <h1 className=" font-light tracking-tight sm:text-4xl">
               {product.name}
             </h1>
 
@@ -359,13 +359,13 @@ export async function ProductDetails({ product }) {
             <div className="mt-3">
               {hasDiscount ? (
                 <div className="flex items-baseline gap-3">
-                  <span className="text-xl line-through text-muted-foreground">
+                  <span className="line-through text-muted-foreground">
                     {formatCurrency(originalPrice)}
                   </span>
-                  <span className="text-3xl font-bold text-foreground">
+                  <span className="font-bold text-foreground">
                     {formatCurrency(discountPrice)}
                   </span>
-                  <Badge variant="outline" className="text-xs">
+                  <Badge variant="outline" className="text-red-400">
                     {Math.round(
                       ((originalPrice - discountPrice) / originalPrice) * 100
                     )}
