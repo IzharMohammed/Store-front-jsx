@@ -117,7 +117,9 @@ import { CategoryDropdown } from "./category-dropdown";
 import { getCategories } from "../../actions/products";
 import { Fraunces } from "next/font/google";
 
-const franceus = Fraunces({});
+const franceus = Fraunces({
+  subsets: ["latin"],
+});
 
 export async function Navbar() {
   const user = await cookieManager.getAuthUser();
@@ -157,7 +159,7 @@ export async function Navbar() {
               <SearchForm />
 
               {/* Theme Toggle */}
-              {/* <ThemeToggle /> */}
+              <ThemeToggle />
 
               {/* Wishlist Icon with Count */}
               <Link href="/wishlist">
