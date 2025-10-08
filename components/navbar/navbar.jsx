@@ -115,6 +115,9 @@ import { getOrders } from "@/actions/order";
 import { StickyNavbar } from "./sticky-navbar";
 import { CategoryDropdown } from "./category-dropdown";
 import { getCategories } from "../../actions/products";
+import { Fraunces } from "next/font/google";
+
+const franceus = Fraunces({});
 
 export async function Navbar() {
   const user = await cookieManager.getAuthUser();
@@ -143,9 +146,9 @@ export async function Navbar() {
             {/* Center - Brand Name */}
             <Link
               href="/"
-              className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-semibold tracking-wide hover:opacity-80 transition-opacity"
+              className={`absolute left-1/2 transform -translate-x-1/2  text-2xl tracking-wide hover:opacity-80 transition-opacity ${franceus.className}`}
             >
-              E-Store
+              Ember Lane
             </Link>
 
             {/* Right Side - Icons and Auth */}
@@ -154,7 +157,7 @@ export async function Navbar() {
               <SearchForm />
 
               {/* Theme Toggle */}
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
 
               {/* Wishlist Icon with Count */}
               <Link href="/wishlist">

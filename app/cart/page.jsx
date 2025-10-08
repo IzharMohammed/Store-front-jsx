@@ -333,11 +333,11 @@ export default async function CartPage() {
 
                       <div className="flex-1 min-w-0">
                         <Link href={`/product/${item.product.id}`}>
-                          <h3 className="font-medium text-base mb-2 hover:underline">
+                          <h3 className="font-medium text-sm mb-2 hover:underline">
                             {item.product.name}
                           </h3>
                         </Link>
-                        <p className="text-sm text-muted-foreground  tracking-wide">
+                        <p className="text-sm text-muted-foreground tracking-wide">
                           {item.product.description?.slice(0, 50)}
                         </p>
                       </div>
@@ -376,7 +376,7 @@ export default async function CartPage() {
                   </h2>
 
                   <div className="space-y-4">
-                    <div className="flex justify-between text-base">
+                    <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">
                         Subtotal ({cartItems.length}{" "}
                         {cartItems.length === 1 ? "item" : "items"})
@@ -386,7 +386,7 @@ export default async function CartPage() {
                       </span>
                     </div>
 
-                    <div className="flex justify-between text-base">
+                    <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Shipping</span>
                       <span className="font-medium">
                         {shipping === 0 ? (
@@ -398,7 +398,7 @@ export default async function CartPage() {
                     </div>
 
                     <div className="border-t pt-4 mt-4">
-                      <div className="flex justify-between text-xl font-bold">
+                      <div className="flex justify-between">
                         <span>Total</span>
                         <span>€{finalTotal.toFixed(0)}</span>
                       </div>
@@ -428,11 +428,7 @@ export default async function CartPage() {
                 )}
 
                 {/* Checkout Button */}
-                <Button
-                  size="lg"
-                  className="w-full text-base font-semibold"
-                  asChild
-                >
+                <Button size="lg" className="w-full text-sm" asChild>
                   <Link
                     href={
                       isAuthenticated
@@ -449,28 +445,6 @@ export default async function CartPage() {
                 <Button variant="outline" size="lg" className="w-full" asChild>
                   <Link href="/products">Continue Shopping</Link>
                 </Button>
-
-                {/* Trust Badges */}
-                <div className="pt-6 border-t space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Shield className="w-5 h-5 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
-                      Secure Payment
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Truck className="w-5 h-5 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
-                      Fast Delivery
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Star className="w-5 h-5 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
-                      Top Quality
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
