@@ -39,14 +39,13 @@ export async function HeroBanner() {
   if (banners.length === 1) {
     const banner = banners[0];
     return (
-      // <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-xl group">
-      <div className="relative w-full h-[500px] md:h-[500px] lg:h-[890px] overflow-hidden rounded-lg shadow-xl group">
+      <div className="relative w-full h-[500px] lg:h-[890px] xl:h-[1000px] 2xl:h-[850px] overflow-hidden rounded-lg shadow-xl group">
         <div className="relative w-full h-full">
           <Image
             src={banner.image}
             alt={banner.title || "Banner"}
             fill
-            className="object-cover transition-transform duration-700 ease-out"
+            className="object-cover  transition-transform duration-700 ease-out"
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
           />
