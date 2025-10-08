@@ -668,7 +668,7 @@ export async function ProductDetails({ product }) {
             Similar Products
           </h2>
           <div className="mx-auto w-24 h-[2px] bg-gray-300 mb-12"></div>
-          <SimilarProducts />
+          <SimilarProducts category={product.category} />
         </div>
       </div>
     </div>

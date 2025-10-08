@@ -1,4 +1,4 @@
-import { getProducts } from "@/actions/products";
+import { getProducts, getProductsByCategory } from "@/actions/products";
 import { NewArrivalsCarousel } from "./new-arrivals-carousel";
 import { getCartItems } from "@/actions/cart";
 import { getWishlistItems } from "@/actions/wishlist";
@@ -8,14 +8,18 @@ const serif = PT_Serif({
   subsets: ["latin"],
   weight: "400",
 });
-export async function SimilarProducts() {
+
+export async function SimilarProducts({ category }) {
+  console.log("category", category);
+
   const [productsResponse, cartResponse, wishlistResponse] = await Promise.all([
-    getProducts(),
+    getProductsByCategory(category),
     getCartItems(),
     getWishlistItems(),
   ]);
+  console.log("productsResponse", productsResponse);
 
-  const products = productsResponse?.data || [];
+  const products = productsResponse?.data?.products || [];
   const cartItems = cartResponse?.data || [];
   const wishlistData = wishlistResponse || {};
   return (
