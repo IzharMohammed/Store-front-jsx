@@ -11,6 +11,7 @@ export function NewArrivalsCarousel({
   products = [],
   cartItems,
   wishlistData,
+  fontClass = "",
 }) {
   const scrollerRef = useRef(null);
 
@@ -128,20 +129,24 @@ export function NewArrivalsCarousel({
                 {/* Title and price below image */}
                 <div className="absoluet ml-36 mt-3 px-1 ">
                   <Link href={`/products/${product.id}`}>
-                    <h3 className="">{product.name}</h3>
+                    <h3 className={`${fontClass}`}>{product.name}</h3>
                   </Link>
                   <div className="mt-1 flex items-baseline gap-2">
                     {hasDiscount ? (
                       <>
-                        <span className="text-sm line-through text-muted-foreground">
+                        <span
+                          className={`text-sm line-through text-muted-foreground ${fontClass}`}
+                        >
                           ${Number(originalPrice).toFixed(2)}
                         </span>
-                        <span className="text-red-600">
+                        <span className={`text-red-600 ${fontClass}`}>
                           ${Number(discountPrice).toFixed(2)}
                         </span>
                       </>
                     ) : (
-                      <span className="text-foreground font-semibold">
+                      <span
+                        className={`text-foreground font-semibold ${fontClass}`}
+                      >
                         ${Number(product.price).toFixed(2)}
                       </span>
                     )}

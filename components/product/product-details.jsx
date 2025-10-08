@@ -269,7 +269,7 @@ import { WishlistButton } from "../wishlist/wishlistButton";
 import { ProductFeedbackSection } from "@/components/feedback/product-feedback-section";
 import ProductImageGallery from "./product-image-gallery";
 import { Fraunces } from "next/font/google";
-
+import { SimilarProducts } from "./similar-products";
 const frauncesFont = Fraunces({
   subsets: ["latin"],
   weight: "200",
@@ -661,6 +661,15 @@ export async function ProductDetails({ product }) {
 
         {/* Customer Feedback */}
         <ProductFeedbackSection product={product} />
+        <div className="mt-50">
+          <h2
+            className={`text-3xl font-light mb-8 text-center tracking-tight ${frauncesFont.className}`}
+          >
+            Similar Products
+          </h2>
+          <div className="mx-auto w-24 h-[2px] bg-gray-300 mb-12"></div>
+          <SimilarProducts />
+        </div>
       </div>
     </div>
   );
