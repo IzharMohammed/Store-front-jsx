@@ -129,7 +129,7 @@ export function NewArrivalsCarousel({
                 {/* Title and price below image */}
                 <div className="absoluet ml-36 mt-3 px-1 ">
                   <Link href={`/products/${product.id}`}>
-                    <h3 className={`${fontClass}`}>{product.name}</h3>
+                    <h6 className={`${fontClass}`}>{product.name}</h6>
                   </Link>
                   <div className="mt-1 flex items-baseline gap-2">
                     {hasDiscount ? (

@@ -108,11 +108,13 @@ import {
   SearchForm,
   ThemeToggle,
   UserDropdown,
-} from "./nav-client";
+} from "../nav-client";
 import { getCartItems } from "@/actions/cart";
 import { getWishlistItems } from "@/actions/wishlist";
 import { getOrders } from "@/actions/order";
 import { StickyNavbar } from "./sticky-navbar";
+import { CategoryDropdown } from "./category-dropdown";
+import { getCategories } from "../../actions/products";
 
 export async function Navbar() {
   const user = await cookieManager.getAuthUser();
@@ -120,43 +122,39 @@ export async function Navbar() {
   const cartItems = await getCartItems(); // Use original function
   const wli = await getWishlistItems(); // Use original function
   const orders = await getOrders(); // Use original function
+  const categories = await getCategories();
 
   return (
     <StickyNavbar>
-      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
+      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm relative z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+            {/* Left Side - Categories Dropdown */}
+            <div className="hidden md:flex items-center space-x-6">
+              <CategoryDropdown categories={categories} />
+              <Link
+                href="/about"
+                className="text-sm font-medium hover:text-primary transition-colors"
+              >
+                Other
+              </Link>
+            </div>
+
+            {/* Center - Brand Name */}
             <Link
               href="/"
-              className="text-xl font-bold hover:opacity-80 transition-opacity"
+              className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-semibold tracking-wide hover:opacity-80 transition-opacity"
             >
               E-Store
             </Link>
 
-            {/* Search Bar - Desktop - Client Component */}
-            <SearchForm />
+            {/* Right Side - Icons and Auth */}
+            <div className="hidden md:flex items-center space-x-3 ml-auto">
+              {/* Search Icon/Form */}
+              <SearchForm />
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-4">
-              {/* Theme Toggle - Client Component */}
+              {/* Theme Toggle */}
               <ThemeToggle />
-
-              {/* Cart Icon with Count */}
-              <Link href="/cart">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative hover:scale-105 transition-transform"
-                >
-                  <ShoppingCart className="w-5 h-5" />
-                  {cartItems.count > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
-                      {cartItems.count > 99 ? "99+" : cartItems.count}
-                    </span>
-                  )}
-                </Button>
-              </Link>
 
               {/* Wishlist Icon with Count */}
               <Link href="/wishlist">
@@ -167,7 +165,7 @@ export async function Navbar() {
                 >
                   <Heart className="w-5 h-5" />
                   {wli.count > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center">
                       {wli.count > 99 ? "99+" : wli.count}
                     </span>
                   )}
@@ -183,8 +181,24 @@ export async function Navbar() {
                 >
                   <Package className="w-5 h-5" />
                   {orders.count > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center animate-pulse">
+                    <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center">
                       {orders.count > 99 ? "99+" : orders.count}
+                    </span>
+                  )}
+                </Button>
+              </Link>
+
+              {/* Cart Icon with Count */}
+              <Link href="/cart">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative hover:scale-105 transition-transform"
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  {cartItems.count > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center">
+                      {cartItems.count > 99 ? "99+" : cartItems.count}
                     </span>
                   )}
                 </Button>
@@ -212,7 +226,7 @@ export async function Navbar() {
               )}
             </div>
 
-            {/* Mobile Menu - Client Component (includes button and menu) */}
+            {/* Mobile Menu */}
             <div className="md:hidden">
               <MobileMenu user={user} isAuthenticated={isAuthenticated} />
             </div>

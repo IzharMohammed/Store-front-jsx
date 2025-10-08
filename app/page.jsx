@@ -8,7 +8,7 @@ export default function HomePage() {
     <div className="space-y-8">
       <HeroBanner />
       <div className="container mx-auto px-4">
-        <Categories />
+        {/* <Categories /> */}
         <Products />
         {/* <FeaturedProducts /> */}
       </div>
