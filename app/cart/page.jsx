@@ -25,7 +25,6 @@ export default async function CartPage() {
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  const savings = totalAmount * 0.15; // Mock savings
   const shipping = totalAmount > 100 ? 0 : 9.99;
   const finalTotal = totalAmount + shipping;
 

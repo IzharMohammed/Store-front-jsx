@@ -48,11 +48,7 @@ export const WishlistButton = ({
 
   // Toggle wishlist status
   const handleToggleWishlist = async () => {
-    // if (isAuthenticated) {
-      addToWishlistAction();
-    // } else {
-      // openOverlay("signin", async () => addToWishlistAction());
-    // }
+    addToWishlistAction();
   };
 
   return (
