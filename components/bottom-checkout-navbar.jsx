@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShoppingCart, ArrowRight, Package, Sparkles, CreditCard, Heart } from "lucide-react";
+import {
+  ShoppingCart,
+  ArrowRight,
+  Package,
+  Sparkles,
+  CreditCard,
+  Heart,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -31,7 +38,7 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
   useEffect(() => {
     if (isVisible) {
       const sparkleTimer = setInterval(() => {
-        setSparkleIndex(prev => (prev + 1) % 3);
+        setSparkleIndex((prev) => (prev + 1) % 3);
       }, 2000);
       return () => clearInterval(sparkleTimer);
     }
@@ -47,52 +54,52 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
           isVisible ? "opacity-100" : "opacity-0"
         }`}
         style={{
-          background: "linear-gradient(to top, rgba(0,0,0,0.1) 0%, transparent 20%)",
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.1) 0%, transparent 20%)",
         }}
       />
-      
+
       {/* Main Bottom Navbar */}
       <div
         className={`fixed bottom-0 left-0 right-0 z-50 transform transition-all duration-500 ease-out ${
-          isVisible 
-            ? "translate-y-0 opacity-100 scale-100" 
+          isVisible
+            ? "translate-y-0 opacity-100 scale-100"
             : "translate-y-full opacity-0 scale-95"
         }`}
       >
         {/* Glow effect */}
         <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 via-pink-500/10 to-transparent blur-xl" />
-        
+
         {/* Main container */}
         <div className="relative bg-background/95 backdrop-blur-xl border-t border-border/50 shadow-2xl">
           {/* Animated border gradient */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
-          
+
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              
               {/* Cart Summary - Left Side */}
               <div className="flex items-center gap-4">
                 {/* Animated Cart Icon */}
                 <div className="relative">
-                  <div
+                  {/* <div
                     className={`w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center transition-all duration-300 ${
                       isAnimating ? "animate-bounce" : "hover:scale-110"
                     }`}
                   >
                     <ShoppingCart className="w-6 h-6 text-white" />
-                  </div>
-                  
+                  </div> */}
+
                   {/* Item count badge */}
-                  <div
+                  {/* <div
                     className={`absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center transition-all duration-300 ${
                       isAnimating ? "animate-pulse scale-110" : ""
                     }`}
                   >
                     {totalItems > 99 ? "99+" : totalItems}
-                  </div>
-                  
+                  </div> */}
+
                   {/* Sparkle effects */}
-                  {[0, 1, 2].map((index) => (
+                  {/* {[0, 1, 2].map((index) => (
                     <Sparkles
                       key={index}
                       className={`absolute w-3 h-3 text-yellow-400 transition-all duration-1000 ${
@@ -103,9 +110,9 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
                         left: index === 0 ? "8px" : index === 1 ? "-8px" : "16px",
                       }}
                     />
-                  ))}
+                  ))} */}
                 </div>
-                
+
                 {/* Cart Details */}
                 <div className="hidden sm:block">
                   <div className="flex items-center gap-2">
@@ -113,7 +120,7 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
                       {totalItems} {totalItems === 1 ? "item" : "items"}
                     </span>
                     <div className="w-1 h-1 bg-muted-foreground rounded-full" />
-                    <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    <span className="text-md  bg-clip-text">
                       ${totalAmount.toFixed(2)}
                     </span>
                   </div>
@@ -127,8 +134,8 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
               <div className="flex items-center gap-3">
                 {/* View Cart Button - Mobile/Desktop */}
                 <Link href="/cart" className="hidden sm:block">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     className="group hover:bg-muted/50 transition-all duration-300 hover:scale-105"
                   >
@@ -136,11 +143,11 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
                     View Cart
                   </Button>
                 </Link>
-                
+
                 {/* Mobile View Cart */}
                 <Link href="/cart" className="sm:hidden">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     className="hover:bg-muted/50 transition-all duration-300 hover:scale-105"
                   >
@@ -150,17 +157,14 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
 
                 {/* Checkout Button */}
                 <Link href="/checkout/authenticated">
-                  <Button
-                    size="sm"
-                    className="group relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 px-6"
-                  >
+                  <Button size="sm" className="group relative  px-6">
                     {/* Animated background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-                    
+                    <div className="absolute" />
+
                     <div className="relative flex items-center gap-2">
-                      <CreditCard className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                      <CreditCard className="w-4 h-4" />
                       <span className="hidden sm:inline">Checkout</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-4 h-4" />
                     </div>
                   </Button>
                 </Link>
@@ -177,7 +181,9 @@ export function BottomCheckoutNavbar({ cartItems = [] }) {
                 <div className="w-full bg-muted rounded-full h-1.5">
                   <div
                     className="bg-gradient-to-r from-green-500 to-emerald-500 h-1.5 rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${Math.min((totalAmount / 100) * 100, 100)}%` }}
+                    style={{
+                      width: `${Math.min((totalAmount / 100) * 100, 100)}%`,
+                    }}
                   />
                 </div>
               </div>
