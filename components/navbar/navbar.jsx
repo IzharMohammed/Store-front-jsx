@@ -116,6 +116,7 @@ import { StickyNavbar } from "./sticky-navbar";
 import { CategoryDropdown } from "./category-dropdown";
 import { getCategories } from "../../actions/products";
 import { Fraunces } from "next/font/google";
+import { getTranslations } from "next-intl/server";
 
 const franceus = Fraunces({
   subsets: ["latin"],
